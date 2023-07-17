@@ -68,7 +68,7 @@ typedef struct lnkdstr
 /**
  * struct passinfo - Contains pseudo-arguments to pass into a function,
  * @cmd_type:     (CMD_NORMAL, CMD_OR, CMD_AND, CMD_CHAIN).
- * @infd:         File descriptor from which to read line input.
+ * @rdfd:         File descriptor from which to read line input.
  * @env_mod:      Flag indicating if the environment has been modified.
  * @status:       Status of the last executed command.
  * @err_num:      Error code for exit() calls.
@@ -90,7 +90,7 @@ typedef struct lnkdstr
 typedef struct passinfo
 {
 	int cmd_type;    /* CMD_type ||, &&, ; */
-	int infd;          /* File descriptor from which to read line input */
+	int rdfd;          /* File descriptor from which to read line input */
 	int env_mod;     /* env modification flag */
 	int status; /*status of the last executed command */
 	int err_num;         /* Error code for exit() calls */
@@ -124,7 +124,6 @@ typedef struct builtin
 {
 	int (*fp)(info *);   /* Function pointer builtin command */
 	char *b_cmd;                  /* String representing the builtin command */
-
 
 } builtin_cmd;
 
