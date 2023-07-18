@@ -69,7 +69,7 @@ typedef struct lnkdstr
  * struct passinfo - Contains pseudo-arguments to pass into a function,
  * @cmd_type:     (CMD_NORMAL, CMD_OR, CMD_AND, CMD_CHAIN).
  * @rdfd:         File descriptor from which to read line input.
- * @env_mod:      Flag indicating if the environment has been modified.
+ * @env_modify:      Flag indicating if the environment has been modified.
  * @status:       Status of the last executed command.
  * @err_num:      Error code for exit() calls.
  * @histcnt:      History line number count.
@@ -79,10 +79,10 @@ typedef struct lnkdstr
  * @arg:          Input string generated from getline containing arguments.
  * @argv:         Array of strings generated from arg.
  * @path:         String path for the current command.
- * @env:          Custom modified copy of the environment variable array.
- * @cmd_buf:      Pointer to cmd ; chain buffer, for memory management.
+ * @modified_env:          Custom modified copy of the environment variable array.
+ * @cmd_buffer:      Pointer to cmd ; chain buffer, for memory management.
  * @fname:        Program filename.
- * @env:          local copy of the environment variables.
+ * @env_list:          local copy of the environment variables.
  * @history:      Linked list representing the history of commands entered.
  * @alias:        Linked list representing aliases for commands.
  */
@@ -91,7 +91,7 @@ typedef struct passinfo
 {
 	int cmd_type;    /* CMD_type ||, &&, ; */
 	int rdfd;          /* File descriptor from which to read line input */
-	int env_mod;     /* env modification flag */
+	int env_modify;     /* env modification flag */
 	int status; /*status of the last executed command */
 	int err_num;         /* Error code for exit() calls */
 	int histcnt;       /* History line number count */
@@ -103,12 +103,12 @@ typedef struct passinfo
 	char **argv;         /* Array of strings generated from arg */
 
 	char *path;          /* String path for the current command */
-	char **env;      /* Custom modified copy of the environment variable array */
-	char **cmd_buf;      /* Pointer to cmd ; chain buffer, for */
+	char **modified_env;      /* Custom modified copy of the environment variable array */
+	char **cmd_buffer;      /* Pointer to cmd ; chain buffer, for */
 	char *fname;       /* Program filename memory management */
 
 
-	list_s *env;         /* Linked list representing copy env var */
+	list_s *env_list;         /* Linked list representing copy env var */
 	list_s *history;     /*  representing the history of commands */
 	list_s *alias;       /*  representing aliases for commands */
 } info;
@@ -155,5 +155,15 @@ info myinfo = INFO_INIT;
 
 
 /*functions*/
+
+/* my info management*/
+void null_info(info *myinfo);
+char **create_argv_manually(info *myinfo, char *arg);
+void initialize_info(info *myinfo, char **argv);
+void myinfo_free(info *myinfo, int freeall);
+
+/*env management*/
+char **copy_env(info *myinfo);
+int env_new_app(info *myinfo, char *variable, char *value);
 
 #endif /* _MY_SHELL_H_ */
