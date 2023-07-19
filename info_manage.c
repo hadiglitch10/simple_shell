@@ -111,14 +111,14 @@ void myinfo_free(info *myinfo, int freeall)
 
 	if (freeall == 1)
 	{
-		arr_free(myinfo->custom_env);
-		myinfo->custom_env = NULL;
+		arr_free(myinfo->env_modify);
+		myinfo->modified_env = NULL;
 		blocks_free((void **)&myinfo->cmd_buffer);
 
 		if (!myinfo->cmd_buffer)
 			free(myinfo->arg);
-		else if (myinfo->env)
-			empty_list(&(myinfo->custom_env));
+		else if (myinfo->env_list)
+			empty_list(&(myinfo->modified_env));
 		else if (myinfo->history)
 			empty_list(&(myinfo->history));
 		else if (myinfo->alias)

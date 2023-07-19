@@ -15,7 +15,7 @@ char **copy_env(info *myinfo)
 	{
 
 	/*change the linked to str to cpy it in array*/
-	myinfo->modified_env = convert_lst2str(myinfo->env_list);
+	myinfo->modified_env = convert_lst2str(myinfo->env_list); /*custom*/
 
 		if (myinfo->modified_env == NULL)
 		{
@@ -54,7 +54,7 @@ int env_new_app(info *myinfo, char *variable, char *value)
 	if (!variable || !value)
 		return (1);
 	/*getting the length of passed args to check*/
-	variable_len = strlength(variable);
+	variable_len = strlength(variable); /*custom*/
 	value_len = strlength(value);
 	/*alloocate memo for var to contain them*/
 	env_str = malloc(variable_len + value_len + 2);
@@ -85,4 +85,40 @@ int env_new_app(info *myinfo, char *variable, char *value)
 	add_node_end(&(myinfo->env_list), env_str, 0);
 	myinfo->env_modify = 1;
 	return (0);
+}
+
+/**
+ * remove_env - Remove an environment variable from the list
+ * @myinfo: Structure contain arguments and env var
+ * Return: 1 on success, 0 variable not found or
+ *         was an error
+ * @var_2be_removed: The name of the environment variable to remove
+ */
+int remove_env(info *myinfo, char *var_2be_removed)
+{
+	list_s *prev = NULL;
+	list_s *current = myinfo->env_list;
+
+	if (!myinfo->env_list || !var_2be_removed)
+		return (0);
+
+	for (current; current; prev = current, current = current->nxt)
+	{
+		char *variable_match = first_str(current->str, var_2be_removed);
+
+		if (variable_match && *variable_match == '=')
+		{
+			if (prev)
+				prev->nxt = current->nxt;
+			else
+				myinfo->env_list = current->nxt;
+
+			free(current->str);
+			free(current);
+			myinfo->env_modify = 1;
+			return (1); /* Variable found and removed*/
+		}
+	}
+
+	return (0); /*Variable not found*/
 }

@@ -79,7 +79,7 @@ typedef struct lnkdstr
  * @arg:          Input string generated from getline containing arguments.
  * @argv:         Array of strings generated from arg.
  * @path:         String path for the current command.
- * @modified_env:          Custom modified copy of the environment variable array.
+ * @modified_env: Custom modified copy of the environment variable array.
  * @cmd_buffer:      Pointer to cmd ; chain buffer, for memory management.
  * @fname:        Program filename.
  * @env_list:          local copy of the environment variables.
@@ -103,7 +103,7 @@ typedef struct passinfo
 	char **argv;         /* Array of strings generated from arg */
 
 	char *path;          /* String path for the current command */
-	char **modified_env;      /* Custom modified copy of the environment variable array */
+	char **modified_env; /* modified copy of the environment variable array */
 	char **cmd_buffer;      /* Pointer to cmd ; chain buffer, for */
 	char *fname;       /* Program filename memory management */
 
