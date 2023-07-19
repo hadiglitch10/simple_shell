@@ -122,3 +122,79 @@ int remove_env(info *myinfo, char *var_2be_removed)
 
 	return (0); /*Variable not found*/
 }
+
+/**
+ * current_env - prints the current environment
+ * @myinfo: Structure Used to maintain
+ * constant function prototype
+ * Return: Always 0
+ */
+int current_env(info *myinfo)
+{
+	/*check if passed env is true*/
+	if (!myinfo || !(myinfo->env_list))
+	{
+		perror("Invalid info or environment list is empty");
+		return (1);
+	}
+
+	/*point to the first element*/
+	list_s *node = myinfo->env_list;
+	size_t env_cnt = 0;
+
+	/*iterate through the list*/
+	while (node)
+	{
+		/*print if there is element*/
+		if (node->str)
+			_puts(node->str);
+
+		/*print nill if empty*/
+		else
+			_puts("(nil)"); /*custom*/
+
+		/*end the line*/
+		_puts("\n");
+
+		/*point to the next node to print*/
+		node = node->nxt;
+
+		/*count num of printed element*/
+		env_cnt++;
+	}
+
+	return (0);
+}
+
+/**
+ * search_env_value - search value of wanted env
+ * @myinfo: Structure Used to maintain
+ * @wanted_var: The name of the environment variable
+ * Return: value wanted env, or NULL if not found
+ */
+char *search_env_value(info *myinfo, const char *wanted_var)
+{
+	list_s *current_node = myinfo->env_list;
+	char *curr_value;
+
+	while (current_node)
+	{
+		curr_value = current_node->str;
+
+		while (*wanted_var && *curr_value == *wanted_var)
+		{
+			wanted_var++;
+			curr_value++;
+		}
+
+		if (*wanted_var == '\0' && *curr_value == '=')
+			return (curr_value + 1);
+		 /*Return the value part of the environment variable*/
+
+		wanted_var -= (curr_value - current_node->str) + 1;
+		/*Reset name pointer*/
+		current_node = current_node->nxt;
+	}
+
+	return (NULL); /*Variable not found*/
+}
