@@ -11,23 +11,23 @@ ssize_t get_node_index(list_t *head, list_t *node)
 	if (head == NULL)
 	{
 		perror("get_node_index - Invalid head pointer");
-		return -1;
+		return (-1);
 	}
 
 	size_t index = 0;
-        /* check and move to the next node untill it equals NULL*/
+		/* check and move to the next node untill it equals NULL*/
 	for (list_t *current = head; current; current = current->next, index++)
 	{
 		if (current == node)
-			return index;
+			return (index);
 	}
 
-	// If the node is not found, return -1
-	return -1;
+	/* If the node is not found, return -1*/
+	return (-1);
 }
 
 /**
- * list_strings - Converts the list->str elements into an array of strings
+ * list_string - Converts the list->str elements into an array of strings
  * @head: Pointer to the first node of the linked list
  * Return: Array of strings or return NULL if head is NULL or the list is empty
  */
@@ -41,14 +41,14 @@ char **list_string(list_t *head)
 	if (!head || num_elements == 0)
 	{
 		perror("list_string - Invalid head pointer or empty list");
-		return NULL;
+		return (NULL);
 	}
 
 	str_array = malloc(sizeof(char *) * (num_elements + 1));
 	if (!str_array)
 	{
 		perror("list_string - Memory allocation failed for array of strings");
-		return NULL;
+		return (NULL);
 	}
 
 	for (count = 0; current_node; current_node = current_node->next, count++)
@@ -60,16 +60,16 @@ char **list_string(list_t *head)
 			for (size_t j = 0; j < count; j++)
 				free(str_array[j]);
 			free(str_array);
-			return NULL;
+			return (NULL);
 		}
 
 		str_element = _strcpy(str_element, current_node->str);
 		str_array[count] = str_element;
 	}
 
-	str_array[count] = NULL; // Null-terminate the array of strings.
+	str_array[count] = NULL; /* Null-terminate the array of strings*/
 
-	return str_array;
+	return (str_array);
 }
 
 /**
@@ -115,7 +115,7 @@ int delete_node(list_t **head, unsigned int index)
 	}
 
 	perror("delete_node_at_index - Invalid index");
-	return 0;
+	return (0);
 }
 
 /**
@@ -128,47 +128,45 @@ int delete_node(list_t **head, unsigned int index)
  */
 list_t *node_starts_with(list_t *head, const char *prefix, char c)
 {
-    if (!head || !prefix)
-    {
-        // Invalid arguments, return NULL
-        return NULL;
-    }
+	if (!head || !prefix)
+	{
+		/* Invalid arguments, return NULL*/
+		return (NULL);
+	}
+	while (head)
+	{
+		size_t prefix_len = strlen(prefix);
+		const char *str = head->str;
 
-    while (head)
-    {
-        size_t prefix_len = strlen(prefix);
-        const char *str = head->str;
+		/* Check if the node's string starts with the prefix*/
+		int prefix_match = 1;
 
-        // Check if the node's string starts with the prefix
-        int prefix_match = 1;
-        for (size_t i = 0; i < prefix_len; i++)
-        {
-            if (tolower(str[i]) != tolower(prefix[i]))
-            {
-                prefix_match = 0;
-                break;
-            }
-        }
+		for (size_t i = 0; i < prefix_len; i++)
+		{
+			if (tolower(str[i]) != tolower(prefix[i]))
+			{
+				prefix_match = 0;
+				break;
+			}
+		}
+		/* Check the next character if provided*/
+		if (prefix_match && (c != -1))
+		{
+			char next_char = str[prefix_len];
 
-        // Check the next character if provided
-        if (prefix_match && (c != -1))
-        {
-            char next_char = str[prefix_len];
-            if (tolower(next_char) != tolower(c))
-            {
-                prefix_match = 0;
-            }
-        }
+			if (tolower(next_char) != tolower(c))
+			{
+				prefix_match = 0;
+			}
+		}
+		if (prefix_match)
+		{
+			return (head); /* Return the matching node*/
+		}
+		head = head->next; /* Move to the next node*/
+	}
 
-        if (prefix_match)
-        {
-            return head; // Return the matching node
-        }
-
-        head = head->next; // Move to the next node
-    }
-
-    return NULL; // No match found
+	return (NULL); /* No match found*/
 }
 /**
  * free_link_list - frees all the list
@@ -176,7 +174,7 @@ list_t *node_starts_with(list_t *head, const char *prefix, char c)
  * Return: nothing
  */
 
-void free_list(list_t **head_ptr)
+void free_link_list(list_t **head_ptr)
 {
 	if (!head_ptr || !*head_ptr)
 		return;

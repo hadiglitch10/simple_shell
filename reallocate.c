@@ -98,7 +98,7 @@ void funfree(char **pp)
 }
 
 /**
- * freememo - Frees the dynamic allocated memory 
+ * freememo - Frees the dynamic allocated memory
  * @ptr: the Address of the pointer to be free
  * Return: 1 if the pointer is freed else return 0
  */
