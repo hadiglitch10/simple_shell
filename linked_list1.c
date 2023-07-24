@@ -5,14 +5,14 @@
  * @h: pointer to first node of the list
  * Return: size of the linked list
  */
-size_t print_link_list(const list_t *h)
+size_t print_link_list(const list_s *h)
 {
 	size_t i = 0; /* Declare and initialize the size counter */
 	/* Traverse the linked list until reaching the end (h becomes NULL)*/
 	while (h != NULL)
 	{
 		/* Print the numeric data of the node */
-		_puts(convert_number(h->num, 10, 0));
+		_puts(convert_number(h->numf, 10, 0));
 		_putchar(':');
 		_putchar(' ');
 
@@ -23,7 +23,7 @@ size_t print_link_list(const list_t *h)
 		_puts("\n");
 
 		/* Move to the next node and increment the size counter */
-		h = h->next;
+		h = h->nxt;
 		i++;
 	}
 
@@ -32,12 +32,12 @@ size_t print_link_list(const list_t *h)
 
 
 /**
- * print_str_list - Prints only the strings element of a list_t linked list
+ * print_str_list - Prints only the strings element of a list_s linked list
  * @head: Pointer to the first node of the list
  * Return: The size of the linked list
  */
 
-size_t print_str_list(const list_t *head)
+size_t print_str_list(const list_s *head)
 {
 	size_t count = 0;
 
@@ -50,7 +50,7 @@ size_t print_str_list(const list_t *head)
 		/* Print a newline character to move to the next line */
 		print_string("\n");
 
-		head = head->next;
+		head = head->nxt;
 		count++;
 	}
 
@@ -62,13 +62,13 @@ size_t print_str_list(const list_t *head)
  * @h: pointer to first node
  * Return: lenght of the list
  */
-size_t list_length(const list_t *h)
+size_t list_length(const list_s *h)
 {
 	size_t count = 0;
 
 	while (h != NULL)
 	{
-		h = h->next;
+		h = h->nxt;
 		count++;
 	}
 	return (count);
@@ -82,7 +82,7 @@ size_t list_length(const list_t *h)
  * Return: Pointer to the new node or NULL if failure
  */
 
-list_t *Add_node_begin(list_t **head, const char *str, int num)
+list_s *Add_node_begin(list_s **head, const char *str, int num)
 {
 	if (head == NULL)
 	{
@@ -90,7 +90,7 @@ list_t *Add_node_begin(list_t **head, const char *str, int num)
 		return (NULL);
 	}
 
-	list_t *new_node = malloc(sizeof(list_t));
+	list_s *new_node = malloc(sizeof(list_s));
 
 	if (new_node == NULL)
 	{
@@ -98,8 +98,8 @@ list_t *Add_node_begin(list_t **head, const char *str, int num)
 		return (NULL);
 	}
 
-	memset(new_node, 0, sizeof(list_t));
-	new_node->num = num;
+	memset(new_node, 0, sizeof(list_s));
+	new_node->numf = num;
 
 	if (str != NULL)
 	{
@@ -112,7 +112,7 @@ list_t *Add_node_begin(list_t **head, const char *str, int num)
 		}
 	}
 
-	new_node->next = *head;
+	new_node->nxt = *head;
 	*head = new_node;
 
 	return (new_node);
@@ -125,7 +125,7 @@ list_t *Add_node_begin(list_t **head, const char *str, int num)
  * @num: The node index used by history
  * Return: Pointer to the new node or NULL if failure
  */
-list_t *Add_node_end(list_t **head, const char *str, int num)
+list_s *Add_node_end(list_s **head, const char *str, int num)
 {
 	if (head == NULL)
 	{
@@ -133,7 +133,7 @@ list_t *Add_node_end(list_t **head, const char *str, int num)
 		return (NULL);
 	}
 
-	list_t *new_node = malloc(sizeof(list_t));
+	list_s *new_node = malloc(sizeof(list_s));
 
 	if (new_node == NULL)
 	{
@@ -141,8 +141,8 @@ list_t *Add_node_end(list_t **head, const char *str, int num)
 		return (NULL);
 	}
 
-	memset(new_node, 0, sizeof(list_t));
-	new_node->num = num;
+	memset(new_node, 0, sizeof(list_s));
+	new_node->numf = num;
 
 	if (str)
 	{
@@ -155,14 +155,14 @@ list_t *Add_node_end(list_t **head, const char *str, int num)
 		}
 	}
 
-	new_node->next = NULL;
+	new_node->nxt = NULL;
 
 	if (*head != NULL)
 	{
-		list_t *node = *head;
-		while (node->next)
-			node = node->next;
-		node->next = new_node;
+		list_s *node = *head;
+		while (node->nxt)
+			node = node->nxt;
+		node->nxt = new_node;
 	}
 	else
 		*head = new_node;
