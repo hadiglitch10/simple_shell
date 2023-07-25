@@ -46,12 +46,12 @@ int string_length(char *str)
 }
 
 /**
- * stringcpy - Copies a string from source to destination
+ * string_cpy - Copies a string from source to destination
  * @destin: The destination buffer
  * @sorc: The source string
  * Return: A pointer to the destination buffer
  */
-char *stringcpy(char *destin, const char *sorc)
+char *string_cpy(char *destin, const char *sorc)
 {
 	int i = 0;
 	/* make sure if the source and destination are the same or the source is NUL*/
@@ -71,12 +71,12 @@ char *stringcpy(char *destin, const char *sorc)
 }
 
 /**
- * stringdupli - Duplicates a string
+ * string_dupli - Duplicates a string
  * @str: The input string to be duplicated
  * Return: A pointer to the newly allocated duplicated string.
  * NULL if str is NULL or if memory allocation fails.
  */
-char *stringdupli(const char *str)
+char *string_dupli(const char *str)
 {
 	int str_len = 0;
 	char *duplicate;

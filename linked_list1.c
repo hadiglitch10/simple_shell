@@ -156,10 +156,10 @@ list_s *Add_node_end(list_s **head, const char *str, int num)
 	}
 
 	new_node->nxt = NULL;
-
 	if (*head != NULL)
 	{
 		list_s *node = *head;
+
 		while (node->nxt)
 			node = node->nxt;
 		node->nxt = new_node;
