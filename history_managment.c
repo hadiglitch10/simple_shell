@@ -32,9 +32,8 @@ int renum_history(info *myinfo)
  *
  * Return: void
  */
-void start_history_list(info *myinfo, char *buf)
+void start_history_list(info *myinfo, char *buf, int linecount)
 {
-	static int linecount;
 
 	/* Check if invalid input or empty */
 	if (myinfo == NULL || buf == NULL || *buf == '\0')

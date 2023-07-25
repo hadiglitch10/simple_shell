@@ -21,7 +21,6 @@ int open_history_file(const char *filename, ssize_t *file_size)
 	*file_size = st.st_size;
 	return (fd);
 }
-
 /**
  * read_history_file - read the history file into a buffer.
  * @fd: The file descriptor of the history file.
@@ -72,7 +71,7 @@ int process_history_buffer(info *myinfo, const char *buf, ssize_t bytes_read)
 
 			if (cmd)
 			{
-				start_history_list(myinfo, cmd);
+				start_history_list(myinfo, cmd, linecount);
 				free(cmd);
 				linecount++;
 			}
@@ -91,7 +90,7 @@ int process_history_buffer(info *myinfo, const char *buf, ssize_t bytes_read)
 
 		if (cmd)
 		{
-			start_history_list(myinfo, cmd);
+			start_history_list(myinfo, cmd, linecount++);
 			free(cmd);
 			linecount++;
 		}
@@ -125,8 +124,6 @@ char *extract_command_from_buffer(const char *buf, int start, int end)
 
 	return (cmd);
 }
-
-#include "my_shell.h"
 
 /**
  * read_history - Reads history file.

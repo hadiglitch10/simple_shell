@@ -12,10 +12,11 @@ void null_info(info *myinfo)
 	free(myinfo->path);
 
 	/* Reset other fields to their initial values or NULL */
+	myinfo->argc = 0;
 	myinfo->arg = NULL;
 	myinfo->argv = NULL;
 	myinfo->path = NULL;
-	myinfo->argc = 0;
+	
 }
 
 /**
@@ -45,7 +46,7 @@ char **create_argv_manually(info *myinfo, char *arg)
 	/* Set the first element of myinfo->argv*/
 	if (arg)
 	{
-		myinfo->argv[0] = str_duplicate(arg);
+		myinfo->argv[0] = str_duplicate(arg); /*boudy*/
 		if (!myinfo->argv[0])
 		{
 			free(myinfo->argv); /* Free allocated memory on failure*/
@@ -75,7 +76,7 @@ void initialize_info(info *myinfo, char **argv)
 
 	if (myinfo->arg != NULL)
 	{
-		myinfo->argv = split_str(myinfo->arg, "\t");
+		myinfo->argv = split_str(myinfo->arg, "\t"); /*boudy splitstr*/
 
 		for (argcnt = 0; myinfo->argv[argcnt] != NULL; argcnt++)
 			;
@@ -105,20 +106,20 @@ void initialize_info(info *myinfo, char **argv)
 
 void myinfo_free(info *myinfo, int freeall)
 {
-	arr_free(myinfo->argv);
-	myinfo->path = NULL;
+	arr_free(myinfo->argv);/*custom*/
+	myinfo->path = NULL; 
 	myinfo->argv = NULL;
 
 	if (freeall == 1)
 	{
 		arr_free(myinfo->env_modify);
 		myinfo->modified_env = NULL;
-		blocks_free((void **)&myinfo->cmd_buffer);
+		blocks_free((void **)&myinfo->cmd_buffer); /*custom*/
 
 		if (!myinfo->cmd_buffer)
 			free(myinfo->arg);
 		else if (myinfo->env_list)
-			empty_list(&(myinfo->modified_env));
+			empty_list(&(myinfo->modified_env)); /*custom*/
 		else if (myinfo->history)
 			empty_list(&(myinfo->history));
 		else if (myinfo->alias)

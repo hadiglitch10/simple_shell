@@ -5,7 +5,7 @@
  * @myinfo: Pointer to the info struct containing shell information.
  * @alias: The string alias to unset.
  *
- * Return: 0 on success, 1 on error.
+ * Return: true on success, false on error.
  */
 bool unset_alias(info *myinfo, char *alias)
 {
@@ -13,25 +13,24 @@ bool unset_alias(info *myinfo, char *alias)
 
 	if (!equal_sign_ptr)
 		return (false);
-	/*Invalid alias format, no equal sign*/
+	/* Invalid alias format, no equal sign */
 
 	*equal_sign_ptr = '\0';
-	/*Null-terminate alias name to extract the name part*/
+	/* Null-terminate alias name to extract the name part */
 	int ret = delete_node_at_index(&(myinfo->alias),
 		get_node_index(myinfo->alias, node_starts_with(myinfo->alias, alias, -1)));
 	*equal_sign_ptr = '=';
-	/*Restore the original string*/
+	/* Restore the original string */
 
 	return (ret);
 }
 
-
 /**
- * set_alias - sets alias to string
- * @myinfo: parameter struct
- * @str: the string alias
+ * set_alias - Sets an alias to a string.
+ * @myinfo: Pointer to the info struct containing shell information.
+ * @str: The string alias (e.g., "alias_name=alias_value").
  *
- * Return: 0 on success, -1 on error
+ * Return: 0 on success, -1 on error.
  */
 int set_alias(info *myinfo, char *str)
 {
@@ -61,10 +60,9 @@ int set_alias(info *myinfo, char *str)
 	/* Add alias to the linked list */
 }
 
-
 /**
- * show_history - displays the history list, one command by line, preceded
- * with line numbers, starting at 0.
+ * show_history - Displays the history list, one command per line,
+ *                preceded with line numbers starting at 0.
  * @myinfo: Pointer to the info struct containing shell information.
  *
  * Return: Always 0.
@@ -87,15 +85,15 @@ int show_history(info *myinfo)
  * show_alias - Prints an alias string.
  * @alias_node: The alias node containing the alias string.
  *
- * Return: 0 on success, -1 if the node is NULL or has an invalid format.
+ * Return: true on success, false if the node is NULL or has an invalid format.
  */
-int show_alias(const list_s *alias_node)
+bool show_alias(const list_s *alias_node)
 {
 	if (alias_node == NULL)
 	{
 		/* Error: Alias node is NULL */
 		_puts("show_alias: Alias node is NULL.\n");
-		return (-1);
+		return (false);
 	}
 
 	char *equal_sign_ptr = _strchr(alias_node->str, '=');
@@ -104,19 +102,20 @@ int show_alias(const list_s *alias_node)
 	{
 		/* Error: Invalid alias format or empty alias name */
 		_puts("show_alias: Invalid alias format or empty alias name.\n");
-		return (-1);
+		return (false);
 	}
 
-	*equal_sign_ptr = '\0'; /* Null-terminate alias name */
-	char *alias_name = alias_node->str;
-	char *alias_value = equal_sign_ptr + 1;
+	char alias_name[MAX_ALIAS_LEN + 1];
+	char alias_value[MAX_ALIAS_LEN + 1];
+	strncpy(alias_name, alias_node->str, equal_sign_ptr - alias_node->str);
+	alias_name[equal_sign_ptr - alias_node->str] = '\0';
+
+	strncpy(alias_value, equal_sign_ptr + 1, MAX_ALIAS_LEN);
+	alias_value[MAX_ALIAS_LEN] = '\0';
 
 	_printf("'%s' '%s'\n", alias_name, alias_value);
 
-	/* Restore the equal sign for consistency, as the node is not modified. */
-	*equal_sign_ptr = '=';
-
-	return (0);
+	return (true);
 }
 
 /**
