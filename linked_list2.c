@@ -6,7 +6,7 @@
  * @node: Pointer to the node that the index has to be found
  * Return: Index of the node or -1 if it failed or it equals to NULL
  */
-ssize_t get_node_index(list_t *head, list_t *node)
+ssize_t get_node_index(list_s *head, list_s *node)
 {
 	if (head == NULL)
 	{
@@ -16,7 +16,7 @@ ssize_t get_node_index(list_t *head, list_t *node)
 
 	size_t index = 0;
         /* check and move to the next node untill it equals NULL*/
-	for (list_t *current = head; current; current = current->next, index++)
+	for (list_s *current = head; current; current = current->nxt, index++)
 	{
 		if (current == node)
 			return index;
@@ -31,9 +31,9 @@ ssize_t get_node_index(list_t *head, list_t *node)
  * @head: Pointer to the first node of the linked list
  * Return: Array of strings or return NULL if head is NULL or the list is empty
  */
-char **list_string(list_t *head)
+char **list_string(list_s *head)
 {
-	list_t *current_node = head;
+	list_s *current_node = head;
 	size_t num_elements = list_len(head), count;
 	char **str_array;
 	char *str_element;
@@ -51,7 +51,7 @@ char **list_string(list_t *head)
 		return NULL;
 	}
 
-	for (count = 0; current_node; current_node = current_node->next, count++)
+	for (count = 0; current_node; current_node = current_node->nxt, count++)
 	{
 		str_element = malloc(_strlen(current_node->str) + 1);
 		if (!str_element)
@@ -78,7 +78,7 @@ char **list_string(list_t *head)
  * @index: Index of the node to be deleted
  * Return: 1 on success, 0 if failure or invalid input
  */
-int delete_node(list_t **head, unsigned int index)
+int delete_node(list_s **head, unsigned int index)
 {
 	if (head == NULL || *head == NULL)
 	{
@@ -88,22 +88,22 @@ int delete_node(list_t **head, unsigned int index)
 
 	if (index == 0)
 	{
-		list_t *node = *head;
-		*head = (*head)->next;
+		list_s *node = *head;
+		*head = (*head)->nxt;
 		free(node->str);
 		free(node);
 		return (1);
 	}
 
-	list_t *node = *head;
-	list_t *prev_node = NULL;
+	list_s *node = *head;
+	list_s *prev_node = NULL;
 	unsigned int i = 0;
 
 	while (node != NULL)
 	{
 		if (i == index)
 		{
-			prev_node->next = node->next;
+			prev_node->nxt = node->nxt;
 			free(node->str);
 			free(node);
 			return (1);
@@ -111,7 +111,7 @@ int delete_node(list_t **head, unsigned int index)
 
 		i++;
 		prev_node = node;
-		node = node->next;
+		node = node->nxt;
 	}
 
 	perror("delete_node_at_index - Invalid index");
@@ -126,7 +126,7 @@ int delete_node(list_t **head, unsigned int index)
  * @c: the next character after prefix to match (-1 to ignore)
  * Return: Pointer to the matching node or NULL if not found.
  */
-list_t *node_starts_with(list_t *head, const char *prefix, char c)
+list_s *node_starts_with(list_s *head, const char *prefix, char c)
 {
     if (!head || !prefix)
     {
@@ -165,7 +165,7 @@ list_t *node_starts_with(list_t *head, const char *prefix, char c)
             return head; // Return the matching node
         }
 
-        head = head->next; // Move to the next node
+        head = head->nxt; // Move to the next node
     }
 
     return NULL; // No match found
@@ -176,17 +176,17 @@ list_t *node_starts_with(list_t *head, const char *prefix, char c)
  * Return: nothing
  */
 
-void free_list(list_t **head_ptr)
+void free_list(list_s **head_ptr)
 {
 	if (!head_ptr || !*head_ptr)
 		return;
 
-	list_t *current_node = *head_ptr;
-	list_t *next_node = NULL;
+	list_s *current_node = *head_ptr;
+	list_s *next_node = NULL;
 
 	for (; current_node; current_node = next_node)
 	{
-		next_node = current_node->next;
+		next_node = current_node->nxt;
 		free(current_node->str);
 		free(current_node);
 	}

@@ -3,6 +3,12 @@
 
 /* Constants and macros */
 
+/*alias*/
+#define MAX_ALIAS_LEN 100
+
+/* exits */
+#define EXIT_PERMISSION_DENIED 126
+
 /* Buffer sizes for reading and writing */
 #define BUFFER_SIZE 1024
 #define BUFFER_FLUSH -1
@@ -34,9 +40,12 @@
 #include <sys/types.h>  /* Data types used in system calls. */
 #include <sys/wait.h>   /* Waiting for child processes. */
 #include <sys/stat.h>   /* File status and mode definitions. */
+#include <sysexits.h>
 #include <fcntl.h>      /* File control options (e.g., open flags). */
 #include <limits.h>     /* Limits of various data types. */
 #include <errno.h>      /* Error handling and reporting. */
+#include <stdbool.h>
+#include <signal.h>
 
 /* External variables */
 extern char **environ;
@@ -123,7 +132,7 @@ typedef struct passinfo
 typedef struct builtin
 {
 	int (*fp)(info *);   /* Function pointer builtin command */
-	char *b_cmd;                  /* String representing the builtin command */
+	char *b_cmd;         /* String representing the builtin command */
 
 } builtin_cmd;
 
@@ -165,5 +174,58 @@ void myinfo_free(info *myinfo, int freeall);
 /*env management*/
 char **copy_env(info *myinfo);
 int env_new_app(info *myinfo, char *variable, char *value);
+int remove_env(info *myinfo, char *var_2be_removed);
+int current_env(info *myinfo);
+char *search_env_value(info *myinfo, const char *wanted_var);
+int new_env(info *myinfo);
+int share_env_list(info *myinfo);
+int my_unsetenv(info *myinfo);
+
+/*cmd_management*/
+int is_cmd_exec(info *myinfo, char *path);
+char *duplicate_substring(const char *str, int start, int end);
+char *find_cmd_path(info *myinfo, const char *pathstr, const char *command);
+void handle_cmd_found(info *myinfo, char *path);
+void handle_cmd_not_found(info *myinfo);
+
+/*interactive shell*/
+int find_builtin_command(info *myinfo);
+void execute_cmd(info *myinfo);
+void find_and_execute_cmd(info *myinfo);
+int run_shell(info *myinfo, char **argv);
+
+/*builtin_functions*/
+int builtin_help(info *myinfo);
+int builtin_exit(info *myinfo);
+int _cd(info *myinfo);
+int str_to_int(const char *str);
+
+
+/*alias mangment*/
+bool unset_alias(info *myinfo, char *alias);
+int set_alias(info *myinfo, char *str);
+int _myalias(info *myinfo);
+int show_history(info *myinfo);
+bool show_alias(const list_s *alias_node);
+
+/*history management*/
+int write_history(info *myinfo);
+char *get_history_file(info *myinfo);
+void start_history_list(info *myinfo, char *buf, int line_count);
+int renum_history(info *myinfo);
+
+/*read history*/
+int open_history_file(const char *filename, ssize_t *file_size);
+char *read_history_file(int fd, ssize_t file_size, ssize_t *bytes_read);
+int process_history_buffer(info *myinfo, const char *buf, ssize_t bytes_read);
+char *extract_command_from_buffer(const char *buf, int start, int end);
+int read_history(info *myinfo);
+
+/*get kosm line*/
+void control_c(int sig_num);
+ssize_t read_buffer(info *myinfo, char *buf, size_t *bytes_read);
+ssize_t input_buf(info *myinfo, char **buf, size_t *len);
+ssize_t get_input(info *myinfo);
+int my_get_next_line(info *myinfo, char **buffer, size_t *size);
 
 #endif /* _MY_SHELL_H_ */
