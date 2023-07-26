@@ -71,7 +71,7 @@ char **split_str_to_words(const char *str, char delimiter)
 	if (num_words == 0)
 		return (NULL);
 
-	char **words = allocate_memory(num_words);
+	char **words = malloc((num_words + 1) * sizeof(char *));
 
 	if (!words)
 		return (NULL);

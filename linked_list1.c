@@ -12,15 +12,15 @@ size_t print_link_list(const list_s *h)
 	while (h != NULL)
 	{
 		/* Print the numeric data of the node */
-		_puts(convert_number(h->numf, 10, 0));
-		_putchar(':');
-		_putchar(' ');
+		print_str(convert_num(h->numf, 10, 0));
+		put_char(':');
+		put_char(' ');
 
 		/* Print the string data of the node or print "(nil)" if it's NULL */
-		_puts(h->str ? h->str : "(nil)");
+		print_str(h->str ? h->str : "(nil)");
 
 		/* Print a newline character to move to the next line */
-		_puts("\n");
+		print_str("\n");
 
 		/* Move to the next node and increment the size counter */
 		h = h->nxt;
@@ -45,10 +45,10 @@ size_t print_str_list(const list_s *head)
 	while (head != NULL)
 	{
 		/* Print the string data of the node or "(nil)" if it's NULL */
-		print_string(head->str ? head->str : "(nil)");
+		print_str(head->str ? head->str : "(nil)");
 
 		/* Print a newline character to move to the next line */
-		print_string("\n");
+		print_str("\n");
 
 		head = head->nxt;
 		count++;
@@ -146,7 +146,7 @@ list_s *Add_node_end(list_s **head, const char *str, int num)
 
 	if (str)
 	{
-		new_node->str = strdup(str);
+		new_node->str = string_dupli(str);
 		if (new_node->str == NULL)
 		{
 			perror("Add_node_end: Memory allocation failed for string");

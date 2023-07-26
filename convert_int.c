@@ -12,11 +12,9 @@ int valid_digit_or_whitespace(char c)
 			 c == '\r' || c == '\f' || c == '\v'));
 }
 
-
 /**
  * get_sign - gets the sign of a number from the input string
  * @str: pointer to the input string
- *
  * Return: 1 if positive, -1 if negative
  */
 int get_sign(const char **str)
@@ -39,14 +37,13 @@ int get_sign(const char **str)
 /**
  * parse_number - parses the number string and converts it to an unsigned long
  * @str: pointer to the input string
- *
  * Return: the parsed unsigned long number
  */
 unsigned long parse_number(const char *str)
 {
 	unsigned long result = 0;
 
-	while (is_valid_digit(*str))
+	while (check_alpha(*str))
 	{
 		result = result * 10 + (*str - '0');
 
@@ -74,7 +71,7 @@ int handle_conversion(char *str)
 
 	while (*str != '\0')
 	{
-		if (is_whitespace(*str))
+		if (valid_digit_or_whitespace(*str))
 		{
 			str++;
 			continue;

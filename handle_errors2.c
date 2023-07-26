@@ -179,15 +179,15 @@ void print_error(info *info, char *str_err)
 
 	if (info->fname != NULL)
 	{
-		dprintf(STDERR_FILENO, "%s: ", info->fname);
+		snprintf(STDERR_FILENO, "%s: ", info->fname);
 	}
 
-	dprintf(STDERR_FILENO, "%d: ", info->line_cnt);
+	snprintf(STDERR_FILENO, "%d: ", info->line_cnt);
 
 	if (info->argv != NULL && info->argv[0] != NULL)
 	{
-		dprintf(STDERR_FILENO, "%s: ", info->argv[0]);
+		snprintf(STDERR_FILENO, "%s: ", info->argv[0]);
 	}
 
-	dprintf(STDERR_FILENO, "%s\n", str_err);
+	snprintf(STDERR_FILENO, "%s\n", str_err);
 }
