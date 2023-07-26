@@ -13,7 +13,7 @@
  *
  * Return: 1 on success, -1 on failure.
  */
-int put_char_err(char ch, int file_d)
+int put_char_fd(char ch, int file_d)
 {
 	static char *buffer;
 	static int index;
@@ -66,24 +66,6 @@ void put_str_err(char *str)
 		_putchar(str[i]);
 	}
 }
-/**
- * put_file_d - writes a character to the specified file descriptor
- * @ch: The character to be written
- * @file_d: The file descriptor to write to
- * Return: 1 on success, -1 on failure
- */
-int put_char_fd(char ch, int file_d)
-{
-	char buf[1] = {ch};
-
-	if (write(file_d, buf, 1) < 0)
-	{
-		perror("put_file_d: Write failed");
-		return (-1);
-	}
-
-	return (1);
-}
 
 /**
  * custom_put - writes an input string to the specified file descriptor
@@ -119,14 +101,14 @@ int put_str_fd(char *str, int file_d)
  * Return: On success, 1 is returned.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int put_char_fd(char ch, int file_d)
+int put_char_err(char ch)
 {
 	static int i;
 	static char buf[BUFFER_SIZE] = {0};
 
 	if (ch == BUFFER_FLUSH || i >= BUFFER_SIZE)
 	{
-		if (write(file_d, buf, i) < 0)
+		if (write(2, buf, i) < 0)
 		{
 			perror("putfd: Write failed");
 			return (-1);
