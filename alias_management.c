@@ -10,6 +10,7 @@
 bool unset_alias(info *myinfo, char *alias)
 {
 	char *equal_sign_ptr = str_char(alias, '=');
+	int ret;
 
 	if (!equal_sign_ptr)
 		return (false);
@@ -17,8 +18,8 @@ bool unset_alias(info *myinfo, char *alias)
 
 	*equal_sign_ptr = '\0';
 	/* Null-terminate alias name to extract the name part */
-	int ret = delete_node(&(myinfo->alias),
-		get_node_index(myinfo->alias, node_starts_with(myinfo->alias, alias, -1)));
+	ret = delete_node(&(myinfo->alias),
+				get_node_index(myinfo->alias, node_starts_with(myinfo->alias, alias, -1)));
 	*equal_sign_ptr = '=';
 	/* Restore the original string */
 
@@ -35,6 +36,7 @@ bool unset_alias(info *myinfo, char *alias)
 int set_alias(info *myinfo, char *str)
 {
 	char *p = str_char(str, '=');
+	char *name, *value;
 
 	if (!p || p == str)
 		return (-1);
@@ -42,16 +44,16 @@ int set_alias(info *myinfo, char *str)
 
 	*p = '\0';
 	/* Null-terminate alias name to extract the name part */
-	char *name = str;
+	name = str;
 	/* Alias name */
-	char *value = p + 1;
+	value = p + 1;
 	/* Alias value */
 
 	if (!*value)
 		return (unset_alias(myinfo, name));
 	/* Empty alias value, remove the alias */
 
-	if (add_node_end(&(myinfo->alias), name, value) == NULL)
+	if (Add_node_end(&(myinfo->alias), name, value) == NULL)
 	{
 		/* Handle allocation failure */
 		return (-1);
