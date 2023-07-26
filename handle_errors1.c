@@ -1,7 +1,7 @@
 #include "my_shell.h"
 
 /**
- * put_char - prints a character to the standard error stream with buffering
+ * put_char_err - prints a character to the standard error stream
  * @ch: The character to be printed
  * @file_d: the file descriptor to write to
  * Return: 1 on success, -1 on failure
@@ -39,6 +39,25 @@ int put_char_err(char ch, int file_d)
 	}
 
 	return (1);
+}
+
+/**
+ * put_str - Prints an input string
+ * @str: The string to be printed
+ * Return: None
+ */
+void put_str(char *str)
+{
+	if (str == NULL)
+	{
+		perror("put_str: The input string is NULL");
+		return;
+	}
+
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		_putchar(str[i]);
+	}
 }
 /**
  * put_file_d - writes a character to the specified file descriptor
