@@ -9,7 +9,7 @@
  */
 bool unset_alias(info *myinfo, char *alias)
 {
-	char *equal_sign_ptr = _strchr(alias, '=');
+	char *equal_sign_ptr = str_char(alias, '=');
 
 	if (!equal_sign_ptr)
 		return (false);
@@ -17,7 +17,7 @@ bool unset_alias(info *myinfo, char *alias)
 
 	*equal_sign_ptr = '\0';
 	/* Null-terminate alias name to extract the name part */
-	int ret = delete_node_at_index(&(myinfo->alias),
+	int ret = delete_node(&(myinfo->alias),
 		get_node_index(myinfo->alias, node_starts_with(myinfo->alias, alias, -1)));
 	*equal_sign_ptr = '=';
 	/* Restore the original string */
@@ -34,7 +34,7 @@ bool unset_alias(info *myinfo, char *alias)
  */
 int set_alias(info *myinfo, char *str)
 {
-	char *p = _strchr(str, '=');
+	char *p = str_char(str, '=');
 
 	if (!p || p == str)
 		return (-1);
@@ -92,26 +92,26 @@ bool show_alias(const list_s *alias_node)
 	if (alias_node == NULL)
 	{
 		/* Error: Alias node is NULL */
-		_puts("show_alias: Alias node is NULL.\n");
+		print_str("show_alias: Alias node is NULL.\n");
 		return (false);
 	}
 
-	char *equal_sign_ptr = _strchr(alias_node->str, '=');
+	char *equal_sign_ptr = str_char(alias_node->str, '=');
 
 	if (equal_sign_ptr == NULL || equal_sign_ptr == alias_node->str)
 	{
 		/* Error: Invalid alias format or empty alias name */
-		_puts("show_alias: Invalid alias format or empty alias name.\n");
+		put_str("show_alias: Invalid alias format or empty alias name.\n");
 		return (false);
 	}
 
 	char alias_name[MAX_ALIAS_LEN + 1];
 	char alias_value[MAX_ALIAS_LEN + 1];
 
-	strncpy(alias_name, alias_node->str, equal_sign_ptr - alias_node->str);
+	str_copy_n(alias_name, alias_node->str, equal_sign_ptr - alias_node->str);
 	alias_name[equal_sign_ptr - alias_node->str] = '\0';
 
-	strncpy(alias_value, equal_sign_ptr + 1, MAX_ALIAS_LEN);
+	str_copy_n(alias_value, equal_sign_ptr + 1, MAX_ALIAS_LEN);
 	alias_value[MAX_ALIAS_LEN] = '\0';
 
 	_printf("'%s' '%s'\n", alias_name, alias_value);
@@ -146,7 +146,7 @@ int _myalias(info *myinfo)
 		/* Process each argument provided by the user */
 		for (i = 1; i < myinfo->argc; i++)
 		{
-			equal_Pos = _strchr(myinfo->argv[i], '=');
+			equal_Pos = str_char(myinfo->argv[i], '=');
 			if (equal_Pos)
 			{
 				/* Argument is an alias definition (name=value) */

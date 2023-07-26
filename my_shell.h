@@ -198,7 +198,7 @@ int run_shell(info *myinfo, char **argv);
 int builtin_help(info *myinfo);
 int builtin_exit(info *myinfo);
 int _cd(info *myinfo);
-int str_to_int(const char *str);
+char *duplicate_substring(const char *str, int start, int end);
 
 
 /*alias mangment*/
@@ -221,11 +221,82 @@ int process_history_buffer(info *myinfo, const char *buf, ssize_t bytes_read);
 char *extract_command_from_buffer(const char *buf, int start, int end);
 int read_history(info *myinfo);
 
-/*get kosm line*/
+/*getline*/
 void control_c(int sig_num);
 ssize_t read_buffer(info *myinfo, char *buf, size_t *bytes_read);
 ssize_t input_buf(info *myinfo, char **buf, size_t *len);
 ssize_t get_input(info *myinfo);
 int my_get_next_line(info *myinfo, char **buffer, size_t *size);
+
+/*tokenizer*/
+int count_words(const char *str, char delimiter);
+char **allocate_memo(int num_words);
+int extract_word(const char *str, int i, char delimiter);
+char **split_str_to_words(const char *str, char delimiter);
+
+
+/*stringf1*/
+int string_cmp(char *str1, char *str2);
+char *str_copy_n(char *destin, const char *sorc, int n);
+char *string_dupli(const char *str);
+int string_length(char *str);
+char *string_cpy(char *destin, const char *sorc);
+
+char *string_concat(char *dest, const char *src);
+char *begin_with(const char *haystack, const char *needle);
+int put_char(char c);
+void print_str(char *input_string);
+char *str_concat_n(char *destin, const char *sorc, int n);
+
+/*reallocate*/
+void *reallocate(void *ptr, unsigned int old_size, unsigned int new_size);
+char *memofill(char *s, char b, unsigned int n);
+void funfree(char **pp);
+int freememo(void **ptr);
+
+/*linked list*/
+size_t print_link_list(const list_s *h);
+size_t print_str_list(const list_s *head);
+size_t list_length(const list_s *h);
+list_s *Add_node_begin(list_s **head, const char *str, int num);
+list_s *Add_node_end(list_s **head, const char *str, int num);
+
+ssize_t get_node_index(list_s *head, list_s *node);
+char **list_string(list_s *head);
+int delete_node(list_s **head, unsigned int index);
+list_s *node_starts_with(list_s *head, const char *prefix, char c);
+void free_link_list(list_s **head_ptr);
+
+/*handle errors*/
+int put_char_err(char ch);
+int put_char_fd(char ch, int file_d);
+int put_str_fd(char *str, int file_d);
+void put_str_err(char *str);
+
+char *convert_num(long int num, int base, int flag);
+int str_to_int(char *str);
+int print_decimal(int num, int file_d);
+void remove_comments(char *input_buff);
+void print_error(info *info, char *str_err);
+
+/*delimeter*/
+void check_chain(info *info, char *buff, size_t *b, size_t a, size_t len);
+int chain(info *info, char *buff, size_t *p);
+int replace_variables(info *info);
+int rep_alias(info *info);
+int rep_str(char **old, char *new);
+
+/*convert int*/
+int valid_digit_or_whitespace(char c);
+int get_sign(const char **str);
+unsigned long parse_number(const char *str);
+int handle_conversion(char *str);
+int convert_to_int(char *str);
+
+/*checks*/
+int check_alpha(int character);
+int check_delim(char character, char *delim);
+int interactive_shell(info *info);
+char *str_char(char *str, char target);
 
 #endif /* _MY_SHELL_H_ */
