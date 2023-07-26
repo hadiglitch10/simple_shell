@@ -104,20 +104,16 @@ void initialize_info(info *myinfo)
 */
 void myinfo_free(info *myinfo, int freeall)
 {
-	free_link_list(myinfo->argv); /* custom */
+	funfree(myinfo->argv); /* custom */
 	myinfo->path = NULL;
 	myinfo->argv = NULL;
 
 	if (freeall == 1)
 	{
-		free_link_list(myinfo->env_modify);
-		myinfo->modified_env = NULL;
-		freememo((void **)&myinfo->cmd_buffer); /* custom */
-
 		if (!myinfo->cmd_buffer)
 			free(myinfo->arg);
 		else if (myinfo->env_list)
-			freememo((void **)myinfo->modified_env); /* free list of strings (char **) */
+			free_link_list(&(myinfo->env_list));
 		else if (myinfo->history)
 			free_link_list(&(myinfo->history));
 		else if (myinfo->alias)
@@ -128,7 +124,5 @@ void myinfo_free(info *myinfo, int freeall)
 		}
 
 		fflush(stdout);
-
-		/* don't forget empty list arr blocks */
 	}
 }
