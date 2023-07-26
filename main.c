@@ -9,7 +9,7 @@
 */
 int main(int argc, char **argv)
 {
-	info *myinfo = INFO_INIT;
+	info *myinfo;
 	int file_descriptor = 2; /*initialize file desc. for stderr*/
 	myinfo = (info *)malloc(sizeof(info)); /* allocate memory for info struct */
 
