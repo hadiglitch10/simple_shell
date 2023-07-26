@@ -4,7 +4,8 @@
 =======
     "files.associations": {
         "my_shell.h": "c",
-        "string": "c"
+        "string": "c",
+        "reference": "c"
     }
 >>>>>>> d05e2fd9f8eb0a0f83a90d633b1f2f81b4bc5036
 }
