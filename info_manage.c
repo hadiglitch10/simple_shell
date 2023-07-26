@@ -75,7 +75,6 @@ void initialize_info(info *myinfo)
 
 	if (myinfo->arg != NULL)
 	{
-		myinfo->argv = split_str_to_words(myinfo->arg, '\t'); /*boudy splitstr*/
 		myinfo->argv = split_str_to_words(myinfo->arg, '\t'); /* Use '\t' as the delimiter */
 
 		for (argcnt = 0; myinfo->argv[argcnt] != NULL; argcnt++)
@@ -105,7 +104,6 @@ void initialize_info(info *myinfo)
 */
 void myinfo_free(info *myinfo, int freeall)
 {
-	funfree(myinfo->argv); /* custom */
 	funfree(myinfo->argv); /* custom */
 	myinfo->path = NULL;
 	myinfo->argv = NULL;
