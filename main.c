@@ -68,9 +68,6 @@ int show_history(info *myinfo)
 
     return (0);
 }
-info* get_myinfo() {
-    return &myinfo;
-}
 int find_builtin_command(info *myinfo)
 {
     char *cmd = myinfo->argv[0];

@@ -155,7 +155,7 @@ typedef struct builtin
 	NULL               /* alias: representing aliases for commands */ \
 }
 
-info myinfo = INFO_INIT;
+
 
 
 /*functions*/
