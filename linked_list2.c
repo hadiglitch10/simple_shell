@@ -177,18 +177,18 @@ list_s *node_starts_with(list_s *head, char *prefix, char c)
 
 void free_link_list(list_s **head_ptr)
 {
-	list_s *node, *next_node, *head;
+	list_s *current_node = *head_ptr;
+	list_s *next_node = NULL;
 
 	if (!head_ptr || !*head_ptr)
 		return;
-	head = *head_ptr;
-	node = head;
-	while (node)
+
+	for (; current_node; current_node = next_node)
 	{
-		next_node = node->nxt;
-		free(node->str);
-		free(node);
-		node = next_node;
+		next_node = current_node->nxt;
+		free(current_node->str);
+		free(current_node);
 	}
+
 	*head_ptr = NULL;
 }
