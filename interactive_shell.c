@@ -26,7 +26,7 @@ int find_builtin_command(info *myinfo)
 
 	for (int i = 0; builtintbl[i].b_cmd != NULL; i++)
 	{
-		if (strcmp(cmd, builtintbl[i].b_cmd) == 0)
+		if (string_cmp(cmd, builtintbl[i].b_cmd) == 0)
 		{
 			myinfo->line_cnt++;
 			return (builtintbl[i].fp(myinfo));
@@ -97,7 +97,7 @@ void find_and_execute_cmd(info *myinfo)
 
 	for (int i = 0; myinfo->arg[i]; i++)
 	{
-		if (!is_delimiter(myinfo->arg[i], " \t\n")) /*custom*/
+		if (!check_delim(myinfo->arg[i], " \t\n")) /*custom*/
 			num_non_delimiters++;
 	}
 
@@ -118,8 +118,6 @@ void find_and_execute_cmd(info *myinfo)
 	}
 }
 
-#include <stdio.h>
-#include <stdlib.h>
 
 /**
  * run_shell - Entry point for running the shell
@@ -132,14 +130,14 @@ int run_shell(info *myinfo, char **argv)
 {
 	ssize_t read_result = 0;
 	int builtin_ret = 0;
-	int is_interactive = if_interactive(myinfo);
+	int is_interactive = interactive_shell(myinfo);
 
 	while (read_result != -1 && builtin_ret != -2)
 	{
 		null_info(myinfo);
 
 		if (is_interactive)
-			_puts("$ ");
+			print_str("$ ");
 
 		fflush(stdout);
 
@@ -147,7 +145,7 @@ int run_shell(info *myinfo, char **argv)
 		if (read_result == -1)
 		{
 			if (is_interactive)
-				_putchar('\n');
+				put_char('\n');
 			break; /*Exit loop on Ctrl+D (EOF)*/
 		}
 		initialize_info(myinfo, argv);

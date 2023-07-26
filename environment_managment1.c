@@ -42,10 +42,10 @@ int share_env_list(info *myinfo)
 
 	while (environ[i])
 	{
-		if (add_node_end(&head, environ[i], 0) == NULL)
+		if (Add_node_end(&head, environ[i], 0) == NULL)
 		{
 			perror("Error adding node to the linked list");
-			free_list(head);
+			free_link_list(head);
 			/*Free list if there's allocation error*/
 			return (1);
 		}

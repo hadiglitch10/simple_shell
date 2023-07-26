@@ -142,12 +142,12 @@ ssize_t get_input(info *myinfo)
 	{
 		p = buf + cmd_start_index;
 		/*Use cmd_start_index to get the start of the command*/
-		check_chain(myinfo, buf, &i, len);
+		check_chain(myinfo, buf, p, &i, len);
 		/*check_chain is implemented and modifies the value of 'i'*/
 		/*Loop to find the end of the command*/
 		while (i < len)
 		{
-			if (is_chain(myinfo, buf, &i))
+			if (chain(myinfo, buf, &i))
 				break;
 			i++;
 		}
@@ -199,11 +199,11 @@ int my_get_next_line(info *myinfo, char **buffer, size_t *size)
 	}
 	newline_ptr = strchr(read_buf + read_idx, '\n');
 	newline_idx = newline_ptr ? 1 + (size_t)(newline_ptr - read_buf) : read_len;
-	new_buf = _reallocate(current_buf, line_len, line_len + newline_idx + 1);
+	new_buf = reallocate(current_buf, line_len, line_len + newline_idx + 1);
 	if (!new_buf)
 		goto free_buffer;
 
-	strncat(new_buf, read_buf + read_idx, newline_idx);
+	str_concat_n(new_buf, read_buf + read_idx, newline_idx);
 	line_len += newline_idx;
 	read_idx += newline_idx;
 	if (newline_ptr)

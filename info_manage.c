@@ -45,7 +45,7 @@ char **create_argv_manually(info *myinfo, char *arg)
 	/* Set the first element of myinfo->argv*/
 	if (arg)
 	{
-		myinfo->argv[0] = str_duplicate(arg); /*boudy*/
+		myinfo->argv[0] = string_dupli(arg); /*boudy*/
 		if (!myinfo->argv[0])
 		{
 			free(myinfo->argv); /* Free allocated memory on failure*/
@@ -75,7 +75,7 @@ void initialize_info(info *myinfo, char **argv)
 
 	if (myinfo->arg != NULL)
 	{
-		myinfo->argv = split_str(myinfo->arg, "\t"); /*boudy splitstr*/
+		myinfo->argv = split_str_to_words(myinfo->arg, "\t"); /*boudy splitstr*/
 
 		for (argcnt = 0; myinfo->argv[argcnt] != NULL; argcnt++)
 			;
@@ -111,18 +111,18 @@ void myinfo_free(info *myinfo, int freeall)
 
 	if (freeall == 1)
 	{
-		arr_free(myinfo->env_modify);
+		free_link_list(myinfo->env_modify);
 		myinfo->modified_env = NULL;
-		blocks_free((void **)&myinfo->cmd_buffer); /*custom*/
+		freememo((void **)&myinfo->cmd_buffer); /*custom*/
 
 		if (!myinfo->cmd_buffer)
 			free(myinfo->arg);
 		else if (myinfo->env_list)
-			empty_list(&(myinfo->modified_env)); /*custom*/
+			free_link_list(&(myinfo->modified_env)); /*custom*/
 		else if (myinfo->history)
-			empty_list(&(myinfo->history));
+			free_link_list(&(myinfo->history));
 		else if (myinfo->alias)
-			empty_list(&(myinfo->alias));
+			free_link_list(&(myinfo->alias));
 		else if (myinfo->rdfd > 2)
 		{
 			close(myinfo->rdfd);

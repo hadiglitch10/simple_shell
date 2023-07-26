@@ -118,7 +118,7 @@ char *extract_command_from_buffer(const char *buf, int start, int end)
 
 	if (cmd)
 	{
-		strncpy(cmd, buf + start, cmd_len);
+		str_copy_n(cmd, buf + start, cmd_len);
 		cmd[cmd_len] = '\0';
 	}
 
@@ -156,7 +156,7 @@ int read_history(info *myinfo)
 	free(buf);
 	while (myinfo->histcnt > MAX_HISTORY_SIZE)
 	{
-		delete_node_at_index(&(myinfo->history), 0);
+		delete_node(&(myinfo->history), 0);
 		myinfo->histcnt--;
 	}
 	return (linecount);

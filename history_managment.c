@@ -40,7 +40,7 @@ void start_history_list(info *myinfo, char *buf, int linecount)
 		return;
 
 	/* Add to the end of the history list */
-	add_node_end(&(myinfo->history), buf, linecount++);
+	Add_node_end(&(myinfo->history), buf, linecount++);
 }
 
 /**
@@ -60,8 +60,8 @@ char *get_history_file(info *myinfo)
 	if (!dir)
 		return (NULL);
 
-	dir_len = _strlen(dir);
-	file_len = _strlen(HISTORY_FILE);
+	dir_len = string_length(dir);
+	file_len = string_length(HISTORY_FILE);
 
 	/* Calculate the size needed for the history file path */
 	size_t buf_size = dir_len + file_len + 2;
@@ -75,9 +75,9 @@ char *get_history_file(info *myinfo)
 	}
 
 	/* Construct the history file path */
-	_strcpy(buf, dir);
-	_strcat(buf, "/");
-	_strcat(buf, HISTORY_FILE);
+	string_cpy(buf, dir);
+	string_concat(buf, "/");
+	string_concat(buf, HISTORY_FILE);
 
 	return (buf);
 }
@@ -108,7 +108,7 @@ int write_history(info *myinfo)
 	while (node != NULL)
 	{
 		/* Write the history line to the file */
-		if (_putsfd(node->str, fd) == -1 || _putfd('\n', fd) == -1)
+		if (put_str_fd(node->str, fd) == -1 || put_char_fd('\n', fd) == -1)
 		{
 			/* Write error occurred, close the file and return -1 */
 			close(fd);
@@ -117,7 +117,7 @@ int write_history(info *myinfo)
 		node = node->nxt;
 	}
 	/* Flush the file buffer */
-	if (_putfd(BUFFER_FLUSH, fd) == -1)
+	if (put_char_fd(BUFFER_FLUSH, fd) == -1)
 	{
 		/* Error occurred while flushing the buffer, close the file and return -1 */
 		close(fd);

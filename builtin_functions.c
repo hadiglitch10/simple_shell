@@ -27,47 +27,11 @@ int builtin_help(info *myinfo)
 
 	while (*line)
 	{
-		_puts(*line++);
-		_putchar('\n');
+		put_str(*line++);
+		put_char('\n');
 	}
 
 	return (0);
-}
-
-/**
- * str_to_int - Convert a string to an integer.
- * @str: The string to convert.
- *
- * Return: The integer representation of the string, or -1 on error.
- */
-int str_to_int(const char *str)
-{
-	int result = 0;
-	int i = 0;
-	bool is_negative = false;
-
-	/* Handle the negative sign if present */
-	if (str[0] == '-')
-	{
-		is_negative = true;
-		i = 1;
-	}
-
-	while (str[i] != '\0')
-	{
-		if (str[i] >= '0' && str[i] <= '9')
-		{
-			result = result * 10 + (str[i] - '0');
-			i++;
-		}
-		else
-		{
-		/* Invalid character in the string, return -1 to indicate an error. */
-			return (-1);
-		}
-	}
-
-	return (is_negative ? -result : result);
 }
 
 /**
@@ -86,8 +50,8 @@ int builtin_exit(info *myinfo)
 		{
 			myinfo->status = 2;
 			perror("Illegal number");
-			_eputs(myinfo->argv[1]);
-			_eputchar('\n');
+			put_str_err(myinfo->argv[1]);
+			put_char_err('\n');
 			return (1); /* Return non-zero to indicate an error */
 		}
 
@@ -115,21 +79,21 @@ int _cd(info *myinfo)
 		return (1);
 	}
 	if (!myinfo->argv[1])
-	{	target_directory = _getenv(myinfo, "HOME=");
+	{	target_directory = search_env_value(myinfo, "HOME=");
 		if (!target_directory)
-		{	target_directory = _getenv(myinfo, "PWD=");
+		{	target_directory = search_env_value(myinfo, "PWD=");
 			if (!target_directory)
 				target_directory = "/";
 		}
 		chdir_result = chdir(target_directory);
 	}
-	else if (_strcmp(myinfo->argv[1], "-") == 0)
+	else if (string_cmp(myinfo->argv[1], "-") == 0)
 	{	/* If the argument is "-", go to the previous directory (OLDPWD) */
-		target_directory = _getenv(myinfo, "OLDPWD=");
+		target_directory = search_env_value(myinfo, "OLDPWD=");
 		if (!target_directory)
 		{
-			_puts(current_directory);
-			_putchar('\n');
+			put_str(current_directory);
+			put_char('\n');
 			return (1);
 		}
 		chdir_result = chdir(target_directory);
@@ -143,8 +107,8 @@ int _cd(info *myinfo)
 		perror("chdir");
 		return (1);
 	}
-	_setenv(myinfo, "OLDPWD", current_directory);
-	_setenv(myinfo, "PWD", getcwd(buffer, 1024));
+	env_new_app(myinfo, "OLDPWD", current_directory);
+	env_new_app(myinfo, "PWD", getcwd(buffer, 1024));
 
 	return (0);
 }

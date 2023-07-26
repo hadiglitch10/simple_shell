@@ -82,10 +82,10 @@ char *find_cmd_path(info *myinfo, const char *pathstr, const char *command)
 	if (!pathstr || !command)
 		return (NULL);
 	/* Check if the command is a relative path and if it exists */
-	if ((strlength(command) > 2) && first_str(command, "./"))
+	if ((string_length(command) > 2) && begin_with(command, "./"))
 	{
 		if (is_cmd_exec(myinfo, command))
-			return (_strdup(command));
+			return (string_dupli(command));
 	}
 	/* Loop through the PATH string to find the command */
 	while (1)
@@ -99,8 +99,8 @@ char *find_cmd_path(info *myinfo, const char *pathstr, const char *command)
 				return (NULL);
 			/* Concatenate the command to the current path segment */
 			if (*path)
-				_strcat(path, "/");
-			_strcat(path, command);
+				string_concat(path, "/");
+			string_concat(path, command);
 			/* Check if the constructed path points to an executable command */
 			if (is_cmd_exec(myinfo, path))
 				return (path);
@@ -137,7 +137,7 @@ void handle_cmd_found(info *myinfo, char *path)
 
 void handle_cmd_not_found(info *myinfo)
 {
-	if (is_interactive(myinfo) || search_env_value(myinfo, "PATH=")
+	if (interactive_shell(myinfo) || search_env_value(myinfo, "PATH=")
 	|| myinfo->argv[0][0] == '/')
 
 	{
