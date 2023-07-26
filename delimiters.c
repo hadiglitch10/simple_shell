@@ -104,22 +104,22 @@ int replace_variables(info *info)
 			case '$':
 				if (arg[1] == '?')
 				{
-					replace_string(&arg, _strdup(convert_number(info->status, 10, 0)));
+					rep_str(&arg, string_dupli(convert_num(info->status, 10, 0)));
 					break;
 				}
 				else if (arg[1] == '$')
 				{
-					replace_string(&arg, _strdup(convert_number(getpid(), 10, 0)));
+					rep_str(&arg, string_dupli(convert_num(getpid(), 10, 0)));
 					break;
 				}
 				node = node_starts_with(info->env_modify, &arg[1], '=');
 				if (node)
 				{
-					replace_string(&arg, _strdup(_strchr(node->str, '=') + 1));
+					rep_str(&arg, string_dupli(str_char(node->str, '=') + 1));
 				}
 				else
 				{
-					replace_string(&arg, _strdup(""));
+					rep_str(&arg, string_dupli(""));
 				}
 				break;
 			default:
@@ -151,16 +151,16 @@ int rep_alias(info *info)
 
 		free(info->argv[0]);
 
-		alias_value = _strchr(node->str, '=');
+		alias_value = str_char(node->str, '=');
 		if (!alias_value)
 		{
 			perror("Error: Invalid alias");
 			return (0);
 		}
 		/* Move past the '=' character*/
-		alias_value++; 
+		alias_value++;
 
-		temp = _strdup(alias_value);
+		temp = string_dupli(alias_value);
 		if (!temp)
 		{
 			perror("Error: Memory allocation failed try again");

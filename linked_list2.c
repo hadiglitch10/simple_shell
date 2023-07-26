@@ -34,7 +34,7 @@ ssize_t get_node_index(list_s *head, list_s *node)
 char **list_string(list_s *head)
 {
 	list_s *current_node = head;
-	size_t num_elements = list_len(head), count;
+	size_t num_elements = list_length(head), count;
 	char **str_array;
 	char *str_element;
 
@@ -53,7 +53,7 @@ char **list_string(list_s *head)
 
 	for (count = 0; current_node; current_node = current_node->nxt, count++)
 	{
-		str_element = malloc(_strlen(current_node->str) + 1);
+		str_element = malloc(string_length(current_node->str) + 1);
 		if (!str_element)
 		{
 			perror("list_string - Memory allocation failed for string element");
@@ -63,7 +63,7 @@ char **list_string(list_s *head)
 			return (NULL);
 		}
 
-		str_element = _strcpy(str_element, current_node->str);
+		str_element = string_cpy(str_element, current_node->str);
 		str_array[count] = str_element;
 	}
 
@@ -135,7 +135,7 @@ list_s *node_starts_with(list_s *head, const char *prefix, char c)
 	}
 	while (head)
 	{
-		size_t prefix_len = strlen(prefix);
+		size_t prefix_len = string_length(prefix);
 		const char *str = head->str;
 
 		/* Check if the node's string starts with the prefix*/

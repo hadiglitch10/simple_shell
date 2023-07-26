@@ -72,11 +72,10 @@ int interactive_shell(info *info)
 	return (1);
 }
 /**
- * _strchr - Locates a character in a string.
+ * str_char - Locates a character in a string.
  * @str: The string to be searched.
  * @target: The character to look for.
- *
- * Return: A pointer to the first occurrence of the character 'target' in the string 'str',
+ * Return: A pointer to the first occurrence of the character,
  *         or NULL if the character is not found.
  */
 char *str_char(char *str, char target)
@@ -84,13 +83,13 @@ char *str_char(char *str, char target)
 	while (*str != '\0')
 	{
 		if (*str == target)
-			return str;
+			return (str);
 		str++;
 	}
 
 	/* Check if 'target' is the null terminator */
 	if (target == '\0')
-		return str;
+		return (str);
 
 	return (NULL);
 }

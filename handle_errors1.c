@@ -57,7 +57,7 @@ void put_str_err(char *str)
 
 	for (int i = 0; str[i] != '\0'; i++)
 	{
-		_putchar(str[i]);
+		put_char(str[i]);
 	}
 }
 
@@ -76,7 +76,7 @@ int put_str_fd(char *str, int file_d)
 
 	while (*str)
 	{
-		if (_putfd(*str++, file_d) < 0)/* Print the character to fd*/
+		if (put_char_fd(*str++, file_d) < 0)/* Print the character to fd*/
 		{
 			/* Handle error and return -1 to indicate failure */
 			perror("custom_put: Error writing to file descriptor");

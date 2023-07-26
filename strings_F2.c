@@ -28,7 +28,7 @@ char *string_concat(char *dest, const char *src)
 	return (result);
 }
 /**
- * _strncat - Concatenates two strings up to n bytes.
+ * str_concat_n - Concatenates two strings up to n bytes.
  * @destin: The destination string.
  * @sorc: The source string.
  * @n: The maximum number of bytes to be copied from src.
