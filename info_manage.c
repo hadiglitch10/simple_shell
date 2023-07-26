@@ -105,7 +105,7 @@ void initialize_info(info *myinfo, char **argv)
 
 void myinfo_free(info *myinfo, int freeall)
 {
-	arr_free(myinfo->argv);/*custom*/
+	free_link_list(myinfo->argv);/*custom*/
 	myinfo->path = NULL;
 	myinfo->argv = NULL;
 

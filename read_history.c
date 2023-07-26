@@ -135,12 +135,12 @@ int read_history(info *myinfo)
 {
 	char *buf = NULL;
 	ssize_t bytes_read, file_size = 0;
-	int linecount = 0;
+	int linecount = 0, file_fd;
 	char *filename = get_history_file(myinfo);
 
 	if (!filename)
 		return (0);
-	int file_fd = open_history_file(filename, &file_size);
+	file_fd = open_history_file(filename, &file_size);
 
 	free(filename);
 	if (file_fd == -1)

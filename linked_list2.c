@@ -8,15 +8,16 @@
  */
 ssize_t get_node_index(list_s *head, list_s *node)
 {
+	list_s *current;
+	size_t index = 0;
+
 	if (head == NULL)
 	{
 		perror("get_node_index - Invalid head pointer");
 		return (-1);
 	}
-
-	size_t index = 0;
 		/* check and move to the next node untill it equals NULL*/
-	for (list_s *current = head; current; current = current->nxt, index++)
+	for (current = head; current; current = current->nxt, index++)
 	{
 		if (current == node)
 			return (index);
@@ -34,7 +35,7 @@ ssize_t get_node_index(list_s *head, list_s *node)
 char **list_string(list_s *head)
 {
 	list_s *current_node = head;
-	size_t num_elements = list_length(head), count;
+	size_t num_elements = list_length(head), count, j;
 	char **str_array;
 	char *str_element;
 
@@ -57,7 +58,7 @@ char **list_string(list_s *head)
 		if (!str_element)
 		{
 			perror("list_string - Memory allocation failed for string element");
-			for (size_t j = 0; j < count; j++)
+			for (j = 0; j < count; j++)
 				free(str_array[j]);
 			free(str_array);
 			return (NULL);
@@ -80,6 +81,10 @@ char **list_string(list_s *head)
  */
 int delete_node(list_s **head, unsigned int index)
 {
+	list_s *node = *head;
+	list_s *prev_node = NULL;
+	unsigned int i = 0;
+
 	if (head == NULL || *head == NULL)
 	{
 		perror("delete_node - Invalid head pointer or empty list");
@@ -94,10 +99,6 @@ int delete_node(list_s **head, unsigned int index)
 		free(node);
 		return (1);
 	}
-
-	list_s *node = *head;
-	list_s *prev_node = NULL;
-	unsigned int i = 0;
 
 	while (node != NULL)
 	{
@@ -126,7 +127,7 @@ int delete_node(list_s **head, unsigned int index)
  * @c: the next character after prefix to match (-1 to ignore)
  * Return: Pointer to the matching node or NULL if not found.
  */
-list_s *node_starts_with(list_s *head, const char *prefix, char c)
+list_s *node_starts_with(list_s *head, char *prefix, char c)
 {
 	if (!head || !prefix)
 	{
@@ -135,13 +136,13 @@ list_s *node_starts_with(list_s *head, const char *prefix, char c)
 	}
 	while (head)
 	{
-		size_t prefix_len = string_length(prefix);
+		size_t prefix_len = string_length(prefix), i;
 		const char *str = head->str;
 
 		/* Check if the node's string starts with the prefix*/
 		int prefix_match = 1;
 
-		for (size_t i = 0; i < prefix_len; i++)
+		for (i = 0; i < prefix_len; i++)
 		{
 			if (tolower(str[i]) != tolower(prefix[i]))
 			{
@@ -176,11 +177,11 @@ list_s *node_starts_with(list_s *head, const char *prefix, char c)
 
 void free_link_list(list_s **head_ptr)
 {
-	if (!head_ptr || !*head_ptr)
-		return;
-
 	list_s *current_node = *head_ptr;
 	list_s *next_node = NULL;
+
+	if (!head_ptr || !*head_ptr)
+		return;
 
 	for (; current_node; current_node = next_node)
 	{

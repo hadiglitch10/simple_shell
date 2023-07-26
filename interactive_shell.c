@@ -1,39 +1,24 @@
 #include "my_shell.h"
 
 /**
- * find_builtin_command - find
+ * find_builtin - Find a built-in command.
+ * @cmd: The command entered by the user.
  *
- * @myinfo: struct
- *
- * Return: the found cmd or -1
-*/
-
-int find_builtin_command(info *myinfo)
+ * Return: A pointer to the function ,
+ *         or NULL if not a built-in command.
+ */
+int (*find_builtin(const char *cmd))(info *)
 {
-	static const builtin_cmd builtintbl[] = {
-		{"exit", builtin_exit},
-		{"env", current_env},
-		{"help", builtin_help},
-		{"history", show_history},
-		{"setenv", new_env},
-		{"unsetenv", my_unsetenv},
-		{"cd", _cd},
-		{"alias", show_alias},
-		{NULL, NULL}
-	};
+	int i = 0;
 
-	const char *cmd = myinfo->argv[0];
-
-	for (int i = 0; builtintbl[i].b_cmd != NULL; i++)
+	while (builtintbl[i].cmd != NULL)
 	{
-		if (string_cmp(cmd, builtintbl[i].b_cmd) == 0)
-		{
-			myinfo->line_cnt++;
-			return (builtintbl[i].fp(myinfo));
-		}
+		if (strcmp(cmd, builtintbl[i].cmd) == 0)
+			return (builtintbl[i].func);
+		i++;
 	}
 
-	return (-1); /*Not found*/
+	return (NULL);
 }
 
 /**
@@ -87,7 +72,7 @@ void execute_cmd(info *myinfo)
 void find_and_execute_cmd(info *myinfo)
 {
 	char *cmd_path = NULL, *c = NULL;
-	int num_non_delimiters = 0;
+	int num_non_delimiters = 0, i;
 
 	if (myinfo->line_cnt_flag)
 	{
@@ -95,7 +80,7 @@ void find_and_execute_cmd(info *myinfo)
 		myinfo->line_cnt_flag = 0;
 	}
 
-	for (int i = 0; myinfo->arg[i]; i++)
+	for (i = 0; myinfo->arg[i]; i++)
 	{
 		if (!check_delim(myinfo->arg[i], " \t\n")) /*custom*/
 			num_non_delimiters++;

@@ -46,6 +46,7 @@
 #include <errno.h>      /* Error handling and reporting. */
 #include <stdbool.h>
 #include <signal.h>
+#include <ctype.h>
 
 /* External variables */
 extern char **environ;
@@ -98,42 +99,38 @@ typedef struct lnkdstr
 
 typedef struct passinfo
 {
-	int cmd_type;    /* CMD_type ||, &&, ; */
-	int rdfd;          /* File descriptor from which to read line input */
-	int env_modify;     /* env modification flag */
-	int status; /*status of the last executed command */
-	int err_num;         /* Error code for exit() calls */
-	int histcnt;       /* History line number count */
-	int line_cnt_flag;  /* Flag to count the current line of input */
-	unsigned int line_cnt; /* Count of input lines */
-
-	int argc;            /* Argument count */
-	char *arg;           /* Input string from getline contain arguments */
-	char **argv;         /* Array of strings generated from arg */
-
-	char *path;          /* String path for the current command */
-	char **modified_env; /* modified copy of the environment variable array */
-	char **cmd_buffer;      /* Pointer to cmd ; chain buffer, for */
-	char *fname;       /* Program filename memory management */
-
-
-	list_s *env_list;         /* Linked list representing copy env var */
-	list_s *history;     /*  representing the history of commands */
-	list_s *alias;       /*  representing aliases for commands */
+	int cmd_type;
+	int rdfd;
+	int env_modify;
+	int status;
+	int err_num;
+	int histcnt;
+	int line_cnt_flag;
+	unsigned int line_cnt;
+	int argc;
+	char *arg;
+	char **argv;
+	char *path;
+	char **modified_env;
+	char **cmd_buffer;
+	char *fname;
+	list_s *env_list;
+	list_s *history;
+	list_s *alias;
 } info;
+
 
 /* Struct definition for builtin commands */
 
 /**
- * struct builtin - built in commands
- * @b_cmd: str cmd
- * @fp: func point cmd
-*/
+ * struct builtin - built-in command and its function pointer.
+ * @cmd: The command string.
+ * @func: Pointer to the function implementing the command.
+ */
 typedef struct builtin
 {
-	int (*fp)(info *);   /* Function pointer builtin command */
-	char *b_cmd;         /* String representing the builtin command */
-
+	char *cmd;
+	int (*func)(info *);
 } builtin_cmd;
 
 /*initailization of pass info*/
@@ -141,23 +138,23 @@ typedef struct builtin
 #define INFO_INIT \
 { \
 	0,                 /* cmd_type: CMD_type ||, &&, ; */ \
-	0,                 /* infd: File descriptor read line input */ \
-	0,                 /* env_mod: env modification flag */ \
+	0,                 /* rdfd: File descriptor read line input */ \
+	0,                 /* env_modify: env modification flag */ \
 	0,                 /* status: Status of the last executed command */ \
 	0,                 /* err_num: Error code for exit() calls */ \
 	0,                 /* histcnt: History line number count */ \
 	0,                 /* line_cnt_flag: Flag count line of input */ \
 	0,                 /* line_cnt: Count of input lines */ \
 	0,                 /* argc: Argument count */ \
-	NULL,              /* arg: Input string  containing args */ \
+	NULL,              /* arg: Input string containing args */ \
 	NULL,              /* argv: Array of strings generated from arg */ \
 	NULL,              /* path: String path for the current command */ \
-	NULL,              /* env:copy of the environment variables */ \
-	NULL,              /* cmd_buf: Pointer cmd chain buffer mem manage */ \
-	NULL,              /* fname: Program filename */ \
-	NULL,              /* env: local copy of env variables */ \
-	NULL,              /* history:  history of commands entered */ \
-	NULL               /* alias:  aliases for commands */ \
+	NULL,              /* modified_env: Copy of the environment variables */ \
+	NULL,              /* cmd_buffer:cmd ; chain buffer, for memory manage */ \
+	NULL,              /* fname: Program filename memory management */ \
+	NULL,              /* env_list: Linked list representing copy of env var */ \
+	NULL,              /* history: representing the history of commands */ \
+	NULL               /* alias: representing aliases for commands */ \
 }
 
 info myinfo = INFO_INIT;
@@ -264,7 +261,7 @@ list_s *Add_node_end(list_s **head, const char *str, int num);
 ssize_t get_node_index(list_s *head, list_s *node);
 char **list_string(list_s *head);
 int delete_node(list_s **head, unsigned int index);
-list_s *node_starts_with(list_s *head, const char *prefix, char c);
+list_s *node_starts_with(list_s *head, char *prefix, char c);
 void free_link_list(list_s **head_ptr);
 
 /*handle errors*/
@@ -299,4 +296,14 @@ int check_delim(char character, char *delim);
 int interactive_shell(info *info);
 char *str_char(char *str, char target);
 
+static const builtin_cmd builtintbl[] = {
+	{"exit", builtin_exit},
+	{"env", current_env},
+	{"help", builtin_help},
+	{"history", show_history},
+	{"setenv", new_env},
+	{"unsetenv", my_unsetenv},
+	{"cd", _cd},
+	{NULL, NULL}
+};
 #endif /* _MY_SHELL_H_ */

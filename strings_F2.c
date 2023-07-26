@@ -37,14 +37,14 @@ char *string_concat(char *dest, const char *src)
  */
 char *str_concat_n(char *destin, const char *sorc, int n)
 {
-	int dest_len = 0;
+	int dest_len = 0, i;
 
 	/* Find the length of the destination string */
 	while (destin[dest_len] != '\0')
 		dest_len++;
 
 	/* Append the source string to the destination */
-	for (int i = 0; sorc[i] != '\0' && i < n; i++)
+	for (i = 0; sorc[i] != '\0' && i < n; i++)
 		destin[dest_len + i] = sorc[i];
 
 	/* Null-terminate the destination string */
@@ -106,16 +106,17 @@ int put_char(char c)
  */
 void print_str(char *input_string)
 {
+	int i;
+	size_t str_length = strlen(input_string);
+
 	if (!input_string)
 	{
 		perror("custom_puts error: Input string is NULL");
 		return;
 	}
 
-	size_t str_length = strlen(input_string);
-
 	printf("Reversed string: ");
-	for (int i = str_length - 1; i >= 0; i--)
+	for (i = str_length - 1; i >= 0; i--)
 	{
 		putchar(input_string[i]);
 	}

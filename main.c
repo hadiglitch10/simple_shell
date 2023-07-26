@@ -10,8 +10,7 @@
 
 int main(int argc, char **argv)
 {
-	info *myinfo = INFO_INIT;
-
+	info *myinfo;
 	int file_descriptor = 2; /*initialize file desc. for stderr*/
 
 	if (argc == 2) /*check if 2 arg*/
@@ -37,10 +36,9 @@ int main(int argc, char **argv)
 		myinfo->rdfd = file_descriptor; /*if no error read the file*/
 	}
 
-	/**
-	* populate_env_list(info);
-	read_history(info);
-	hsh(info, av);
-	*/
+	share_env_list(myinfo);
+	read_history(myinfo);
+	run_shell(myinfo, argv);
+
 	return (EXIT_SUCCESS);
 }

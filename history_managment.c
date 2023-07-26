@@ -53,7 +53,7 @@ void start_history_list(info *myinfo, char *buf, int linecount)
 char *get_history_file(info *myinfo)
 {
 	char *buf, *dir;
-	size_t dir_len, file_len;
+	size_t dir_len, file_len, buf_size;
 
 	/* Get the user's home directory path */
 	dir = search_env_value(myinfo, "HOME=");
@@ -64,7 +64,7 @@ char *get_history_file(info *myinfo)
 	file_len = string_length(HISTORY_FILE);
 
 	/* Calculate the size needed for the history file path */
-	size_t buf_size = dir_len + file_len + 2;
+	buf_size = dir_len + file_len + 2;
 
 	/* Allocate memory for the history file path */
 	buf = malloc(buf_size);
@@ -90,33 +90,31 @@ char *get_history_file(info *myinfo)
  */
 int write_history(info *myinfo)
 {
+	list_s *node;
+	int fd;
+	char *filename;
+
 	if (myinfo == NULL)
 		return (-1); /* Invalid info struct */
 
-	char *filename = get_history_file(myinfo);
+	filename = get_history_file(myinfo);
 
 	if (filename == NULL)
 		return (-1); /* Failed to get the history file path */
-	int fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-
+	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	free(filename);
 	if (fd == -1)
 		return (-1); /* Failed to open the history file */
-
-	list_s *node = myinfo->history;
-
+	node = myinfo->history;
 	while (node != NULL)
 	{
-		/* Write the history line to the file */
 		if (put_str_fd(node->str, fd) == -1 || put_char_fd('\n', fd) == -1)
 		{
-			/* Write error occurred, close the file and return -1 */
 			close(fd);
 			return (-1);
 		}
 		node = node->nxt;
 	}
-	/* Flush the file buffer */
 	if (put_char_fd(BUFFER_FLUSH, fd) == -1)
 	{
 		/* Error occurred while flushing the buffer, close the file and return -1 */

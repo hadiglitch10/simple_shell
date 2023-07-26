@@ -11,7 +11,7 @@
 char *convert_num(long int num, int base, int flag)
 {
 	static char buffer[50];
-	char *array;
+	char *array, *sign;
 
 	if (flag & CONVERT_TO_LOWERCASE)
 		array = "0123456789abcdef";
@@ -24,7 +24,7 @@ char *convert_num(long int num, int base, int flag)
 		return (NULL);
 	}
 
-	char sign = (num < 0 && !(flag & CONVERT_TO_UNSIGNED)) ? '-' : '\0';
+	sign = (num < 0 && !(flag & CONVERT_TO_UNSIGNED)) ? '-' : '\0';
 	unsigned long n = (num < 0 && !(flag & CONVERT_TO_UNSIGNED)) ? -num : num;
 
 	char *ptr = &buffer[49];
@@ -35,7 +35,7 @@ char *convert_num(long int num, int base, int flag)
 		n /= base;
 	} while (n != 0);
 
-	if (sign != NULL)
+	if (sign)
 		*--ptr = sign;
 
 	return (ptr);
@@ -144,13 +144,13 @@ int print_decimal(int num, int file_d)
  */
 void remove_comments(char *input_buff)
 {
+	int i = 0;
+
 	if (input_buff == NULL)
 	{
 		perror("Error: Input buffer is NULL.");
 		return;
 	}
-
-	int i = 0;
 
 	while (input_buff[i] != '\0')
 	{
@@ -179,15 +179,15 @@ void print_error(info *info, char *str_err)
 
 	if (info->fname != NULL)
 	{
-		snprintf(STDERR_FILENO, "%s: ", info->fname);
+		fprintf(stderr, "%s: ", info->fname);
 	}
 
-	snprintf(STDERR_FILENO, "%d: ", info->line_cnt);
+	fprintf(stderr, "%d: ", info->line_cnt);
 
 	if (info->argv != NULL && info->argv[0] != NULL)
 	{
-		snprintf(STDERR_FILENO, "%s: ", info->argv[0]);
+		fprintf(stderr, "%s: ", info->argv[0]);
 	}
 
-	snprintf(STDERR_FILENO, "%s\n", str_err);
+	fprintf(stderr, "%s\n", str_err);
 }

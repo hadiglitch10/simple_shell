@@ -7,13 +7,13 @@
  */
 int count_words(const char *str, char delimiter)
 {
+	int i = 0, num_words = 0;
+
 	if (str == NULL || *str == '\0')
 	{
 		perror("Error: Input string is NULL or empty");
 		return (0);
 	}
-
-	int i = 0, num_words = 0;
 
 	while (str[i] != '\0')
 	{
@@ -67,22 +67,20 @@ int extract_word(const char *str, int i, char delimiter)
 char **split_str_to_words(const char *str, char delimiter)
 {
 	int num_words = count_words(str, delimiter);
+	int m = 0, i = 0, j = 0, word_len;
+	char **words = malloc((num_words + 1) * sizeof(char *));
 
 	if (num_words == 0)
 		return (NULL);
 
-	char **words = malloc((num_words + 1) * sizeof(char *));
-
 	if (!words)
 		return (NULL);
-
-	int i = 0, j = 0;
 
 	while (j < num_words)
 	{
 		while (str[i] == delimiter)
 			i++;
-		int word_len = extract_word(str, i, delimiter);
+		word_len = extract_word(str, i, delimiter);
 
 		words[j] = malloc((word_len + 1) * sizeof(char));
 		if (!words[j])
@@ -93,7 +91,6 @@ char **split_str_to_words(const char *str, char delimiter)
 			free(words);
 			return (NULL);
 		}
-		int m = 0;
 
 		while (m < word_len)
 		{

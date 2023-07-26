@@ -53,13 +53,13 @@ int string_length(char *str)
  */
 char *string_cpy(char *destin, const char *sorc)
 {
-	int i = 0;
+	int i;
 	/* make sure if the source and destination are the same or the source is NUL*/
 	if (destin == sorc || sorc == NULL)
 		return (destin);
 
 	/* Copy characters from source to destination */
-	for (i; sorc[i] != '\0'; i++)
+	for (i = 0; sorc[i] != '\0'; i++)
 	{
 		destin[i] = sorc[i];
 	}
@@ -112,7 +112,7 @@ char *str_copy_n(char *destin, const char *sorc, int n)
  */
 char *string_dupli(const char *str)
 {
-	int str_len = 0;
+	int str_len = 0, i;
 	char *duplicate;
 
 	/* Check if the input string is NULL*/
@@ -131,7 +131,7 @@ char *string_dupli(const char *str)
 		return (NULL);
 
 	/* Copy the characters from the input string to the duplicate string*/
-	for (int i = 0; i <= str_len; i++)
+	for (i = 0; i <= str_len; i++)
 		duplicate[i] = str[i];
 
 	return (duplicate);

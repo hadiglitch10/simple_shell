@@ -84,13 +84,13 @@ size_t list_length(const list_s *h)
 
 list_s *Add_node_begin(list_s **head, const char *str, int num)
 {
+	list_s *new_node = malloc(sizeof(list_s));
+
 	if (head == NULL)
 	{
 		perror("Add_node_begin:  Invalid head pointer");
 		return (NULL);
 	}
-
-	list_s *new_node = malloc(sizeof(list_s));
 
 	if (new_node == NULL)
 	{
@@ -127,13 +127,13 @@ list_s *Add_node_begin(list_s **head, const char *str, int num)
  */
 list_s *Add_node_end(list_s **head, const char *str, int num)
 {
+	list_s *new_node = malloc(sizeof(list_s));
+
 	if (head == NULL)
 	{
 		perror("Add_node_end: Invalid head pointer");
 		return (NULL);
 	}
-
-	list_s *new_node = malloc(sizeof(list_s));
 
 	if (new_node == NULL)
 	{

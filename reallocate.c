@@ -56,13 +56,13 @@ void *reallocate(void *ptr, unsigned int old_size, unsigned int new_size)
  */
 char *memofill(char *s, char b, unsigned int n)
 {
+	unsigned int i = 0;
+
 	if (s == NULL)
 	{
 		perror("Error in _memset: Provided pointer is NULL");
 		return (NULL);
 	}
-
-	unsigned int i = 0;
 
 	while (i < n)
 	{
@@ -79,13 +79,13 @@ char *memofill(char *s, char b, unsigned int n)
  */
 void funfree(char **pp)
 {
+	char **temp_ptr = pp;
+
 	if (pp == NULL)
 	{
 		perror("Error in ffree: Invalid input pointer");
 		return;
 	}
-
-	char **temp_ptr = pp;
 
 	/* Free each individual string in the array. */
 	for (; *pp != NULL; pp++)
