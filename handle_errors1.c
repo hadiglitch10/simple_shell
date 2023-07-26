@@ -43,7 +43,7 @@ int put_char_fd(char ch, int file_d)
 }
 
 /**
- * put_str - Prints an input string
+ * put_str_err - Prints an input string
  * @str: The string to be printed
  * Return: None
  */
@@ -89,7 +89,7 @@ int put_str_fd(char *str, int file_d)
 }
 
 /**
- * put_char_fd - writes the character c to the given file descriptor
+ * put_char_err - writes the character c to the given file descriptor
  * @ch: The character to be written
  * Return: On success, 1 is returned.
  * On error, -1 is returned, and errno is set appropriately.
