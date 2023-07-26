@@ -6,7 +6,7 @@
  * @file_d: the file descriptor to write to
  * Return: 1 on success, -1 on failure
  */
-int put_char_err(char ch, int file_d)
+int put_char_err(char ch)
 {
 	static char *buffer;
 	static int index;
@@ -46,7 +46,7 @@ int put_char_err(char ch, int file_d)
  * @str: The string to be printed
  * Return: None
  */
-void put_str(char *str)
+void put_str_err(char *str)
 {
 	if (str == NULL)
 	{
@@ -65,7 +65,7 @@ void put_str(char *str)
  * @file_d: The file descriptor to write to
  * Return: 1 on success, -1 on failure
  */
-int put_file_d(char ch, int file_d)
+int put_char_fd(char ch, int file_d)
 {
 	char buf[1] = {ch};
 
@@ -84,7 +84,7 @@ int put_file_d(char ch, int file_d)
  * @file_d: The file descriptor to write to
  * Return: The number of characters written on success, -1 on failure
  */
-int custom_put(char *str, int file_d)
+int put_str_fd(char *str, int file_d)
 {
 	int i = 0;
 
@@ -112,7 +112,7 @@ int custom_put(char *str, int file_d)
  * Return: On success, 1 is returned.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int put_fd(char ch, int file_d)
+int put_char_fd(char ch, int file_d)
 {
 	static int i;
 	static char buf[BUFFER_SIZE] = {0};
