@@ -165,7 +165,7 @@ info myinfo = INFO_INIT;
 /* my info management*/
 void null_info(info *myinfo);
 char **create_argv_manually(info *myinfo, char *arg);
-void initialize_info(info *myinfo, char **argv);
+void initialize_info(info *myinfo);
 void myinfo_free(info *myinfo, int freeall);
 
 /*env management*/
@@ -189,7 +189,7 @@ void handle_cmd_not_found(info *myinfo);
 int find_builtin_command(info *myinfo);
 void execute_cmd(info *myinfo);
 void find_and_execute_cmd(info *myinfo);
-int run_shell(info *myinfo, char **argv);
+int run_shell(info *myinfo);
 
 /*builtin_functions*/
 int builtin_help(info *myinfo);

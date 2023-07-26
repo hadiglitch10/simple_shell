@@ -12,22 +12,21 @@ char *convert_num(long int num, int base, int flag)
 {
 	static char buffer[50];
 	char *array, *sign;
-
+	unsigned long n = (num < 0 && !(flag & CONVERT_TO_UNSIGNED)) ? -num : num;
+	char *ptr = &buffer[49];
 	if (flag & CONVERT_TO_LOWERCASE)
 		array = "0123456789abcdef";
 	else
 		array = "0123456789ABCDEF";
-	/*checks for the base, minimum base (2), maximum base (16)*/
+	
 	if (base < 2 || base > 16)
 	{
 		perror("Error: Invalid base for conversion");
 		return (NULL);
 	}
 
-	sign = (num < 0 && !(flag & CONVERT_TO_UNSIGNED)) ? '-' : '\0';
-	unsigned long n = (num < 0 && !(flag & CONVERT_TO_UNSIGNED)) ? -num : num;
-
-	char *ptr = &buffer[49];
+	/* Use a string literal "- " instead of a single character '-'*/
+	sign = (num < 0 && !(flag & CONVERT_TO_UNSIGNED)) ? "- " : "";
 	*ptr = '\0';
 
 	do {
@@ -35,11 +34,13 @@ char *convert_num(long int num, int base, int flag)
 		n /= base;
 	} while (n != 0);
 
-	if (sign)
-		*--ptr = sign;
+	/* Concatenate the sign string (if any)*/
+	if (sign[0] != '\0')
+		*--ptr = sign[0];
 
 	return (ptr);
 }
+
 
 /**
  * str_to_int - converts a string to an integer
@@ -97,7 +98,7 @@ int str_to_int(char *str)
  */
 int print_decimal(int num, int file_d)
 {
-	int (*print_char)(char) = putchar;
+	int (*print_char)(int) = putchar; /* Change the pointer type to int (*)(int)*/
 	int divisor = 1000000000, count = 0;
 	unsigned int abs_num, current_digit;
 
