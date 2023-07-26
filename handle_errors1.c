@@ -6,12 +6,19 @@
  * @file_d: the file descriptor to write to
  * Return: 1 on success, -1 on failure
  */
-int put_char_err(char ch)
+/**
+ * put_char_err - Writes a character to the file descriptor with error handling.
+ * @ch: The character to be written.
+ * @file_d: The file descriptor to write to.
+ *
+ * Return: 1 on success, -1 on failure.
+ */
+int put_char_err(char ch, int file_d)
 {
 	static char *buffer;
 	static int index;
 
-	if (ch == EOF) /* Ignore EOF character (end-of-file = -1)*/
+	if (ch == EOF) /* Ignore EOF character (end-of-file = -1) */
 		return (1);
 
 	if (buffer == NULL)
@@ -28,10 +35,10 @@ int put_char_err(char ch)
 
 	if (index >= BUFFER_SIZE || ch == '\n')
 	{
-		if (_putfd(BUFFER_FLUSH, file_d) < 0) /* flush the buffered characters */
+		if (write(file_d, buffer, index) < 0) /* flush the buffered characters */
 		{
-			perror("put_char: writing failed");
-			free(buffer); /*deallocate memory */
+			perror("put_char: Writing failed");
+			free(buffer); /* deallocate memory */
 			buffer = NULL;
 			return (-1);
 		}
