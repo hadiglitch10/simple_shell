@@ -69,13 +69,13 @@ char **create_argv_manually(info *myinfo, char *arg)
  * @myinfo: Args
  * @argv: Array of args
  */
-void initialize_info(info *myinfo, char **argv)
+void initialize_info(info *myinfo)
 {
 	int argcnt;
 
 	if (myinfo->arg != NULL)
 	{
-		myinfo->argv = split_str_to_words(myinfo->arg, "\t"); /*boudy splitstr*/
+		myinfo->argv = split_str_to_words(myinfo->arg, '\t'); /*boudy splitstr*/
 
 		for (argcnt = 0; myinfo->argv[argcnt] != NULL; argcnt++)
 			;
@@ -118,7 +118,7 @@ void myinfo_free(info *myinfo, int freeall)
 		if (!myinfo->cmd_buffer)
 			free(myinfo->arg);
 		else if (myinfo->env_list)
-			free_link_list(&(myinfo->modified_env)); /*custom*/
+			free_link_list(myinfo->modified_env); /*custom*/
 		else if (myinfo->history)
 			free_link_list(&(myinfo->history));
 		else if (myinfo->alias)

@@ -157,7 +157,6 @@ typedef struct builtin
 	NULL               /* alias: representing aliases for commands */ \
 }
 
-info myinfo = INFO_INIT;
 
 
 /*functions*/
@@ -165,7 +164,7 @@ info myinfo = INFO_INIT;
 /* my info management*/
 void null_info(info *myinfo);
 char **create_argv_manually(info *myinfo, char *arg);
-void initialize_info(info *myinfo, char **argv);
+void initialize_info(info *myinfo);
 void myinfo_free(info *myinfo, int freeall);
 
 /*env management*/

@@ -175,7 +175,7 @@ list_s *node_starts_with(list_s *head, char *prefix, char c)
  * Return: nothing
  */
 
-void free_link_list(list_s **head_ptr)
+void free_link_list(char **head_ptr)
 {
 	list_s *current_node = *head_ptr;
 	list_s *next_node = NULL;

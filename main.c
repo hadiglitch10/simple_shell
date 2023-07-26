@@ -10,7 +10,7 @@
 
 int main(int argc, char **argv)
 {
-	info *myinfo;
+	info myinfo = { 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 	int file_descriptor = 2; /*initialize file desc. for stderr*/
 
 	if (argc == 2) /*check if 2 arg*/
