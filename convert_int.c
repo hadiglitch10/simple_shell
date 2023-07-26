@@ -1,12 +1,12 @@
 #include "my_shell.h"
 
 /**
- * is_valid_digit_or_whitespace - checks if valid and no whitespace
+ * valid_digit_or_whitespace - checks if valid and no whitespace
  * @c: the character to check
  *
  * Return: 1 if c is a valid digit or whitespace, 0 otherwise
  */
-int is_valid_digit_or_whitespace(char c)
+int valid_digit_or_whitespace(char c)
 {
 	return ((c >= '0' && c <= '9') || (c == ' ' || c == '\t' || c == '\n' ||
 			 c == '\r' || c == '\f' || c == '\v'));
@@ -120,7 +120,5 @@ int convert_to_int(char *str)
 		fprintf(stderr, "convert_to_int: Input string is NULL\n");
 		return (0);
 	}
-	int result = handle_conversion(str);
-
-	return (result);
+	return (handle_conversion(str));
 }

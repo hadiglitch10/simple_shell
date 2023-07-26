@@ -16,7 +16,6 @@ void null_info(info *myinfo)
 	myinfo->arg = NULL;
 	myinfo->argv = NULL;
 	myinfo->path = NULL;
-	
 }
 
 /**
@@ -107,7 +106,7 @@ void initialize_info(info *myinfo, char **argv)
 void myinfo_free(info *myinfo, int freeall)
 {
 	arr_free(myinfo->argv);/*custom*/
-	myinfo->path = NULL; 
+	myinfo->path = NULL;
 	myinfo->argv = NULL;
 
 	if (freeall == 1)

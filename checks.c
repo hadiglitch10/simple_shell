@@ -13,7 +13,7 @@ int check_alpha(int character)
 	else if (character >= 0 && character <= 127)
 	/* ASCII range check for alphabetic*/
 	{
-		perror("_isalpha: Not an alphabetic character");
+		fprintf(stderr, "check_alpha: Not an alphabetic character: %c\n", character);
 		return (0);
 	}
 	else
@@ -32,7 +32,7 @@ int check_delim(char character, char *delim)
 {
 	if (delim == NULL)
 	{
-		perror("is_delim: Delimiter string is NULL");
+		perror("check_delim: Delimiter string is NULL");
 		return (-1);
 	}
 

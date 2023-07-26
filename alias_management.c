@@ -107,6 +107,7 @@ bool show_alias(const list_s *alias_node)
 
 	char alias_name[MAX_ALIAS_LEN + 1];
 	char alias_value[MAX_ALIAS_LEN + 1];
+
 	strncpy(alias_name, alias_node->str, equal_sign_ptr - alias_node->str);
 	alias_name[equal_sign_ptr - alias_node->str] = '\0';
 

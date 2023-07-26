@@ -29,7 +29,7 @@ int renum_history(info *myinfo)
  * start_history_list - Adds an entry to a history linked list.
  * @myinfo: Pointer to the info struct containing shell information.
  * @buf: Buffer containing the command.
- *
+ * @linecount: count the length of the line
  * Return: void
  */
 void start_history_list(info *myinfo, char *buf, int linecount)
