@@ -1,16 +1,10 @@
 #include "my_shell.h"
 
+
 /**
- * put_char_err - prints a character to the standard error stream
- * @ch: The character to be printed
- * @file_d: the file descriptor to write to
- * Return: 1 on success, -1 on failure
- */
-/**
- * put_char_err - Writes a character to the file descriptor with error handling.
+ * put_char_fd - Writes a character to the file descriptor with error handling.
  * @ch: The character to be written.
  * @file_d: The file descriptor to write to.
- *
  * Return: 1 on success, -1 on failure.
  */
 int put_char_fd(char ch, int file_d)
@@ -68,7 +62,7 @@ void put_str_err(char *str)
 }
 
 /**
- * custom_put - writes an input string to the specified file descriptor
+ * put_str_fd - writes an input string to the specified file descriptor
  * @str: The string to be written
  * @file_d: The file descriptor to write to
  * Return: The number of characters written on success, -1 on failure
@@ -95,9 +89,8 @@ int put_str_fd(char *str, int file_d)
 }
 
 /**
- * put_fd - writes the character c to the given file descriptor
+ * put_char_fd - writes the character c to the given file descriptor
  * @ch: The character to be written
- * @file_d: The file descriptor to write to
  * Return: On success, 1 is returned.
  * On error, -1 is returned, and errno is set appropriately.
  */
