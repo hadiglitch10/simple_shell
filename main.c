@@ -7,7 +7,6 @@
  *
  * Return: 0 on success, 1 on error
 */
-
 int main(int argc, char **argv)
 {
 	info *myinfo = INFO_INIT;
@@ -48,4 +47,39 @@ int main(int argc, char **argv)
 	run_shell(myinfo);
 	myinfo_free(myinfo, 1);
 	return (EXIT_SUCCESS);
+}
+/* Function to display the command history */
+int show_history(info *myinfo)
+{
+    int count = 1;
+    list_s *current = myinfo->history;
+
+    /* If history is empty, display a message */
+    if (current == NULL) {
+        printf("Command history is empty.\n");
+        return 0;
+    }
+
+    while (current != NULL) {
+        printf("%d: %s\n", count, current->str);
+        current = current->nxt;
+        count++;
+    }
+
+    return (0);
+}
+int find_builtin_command(info *myinfo)
+{
+    char *cmd = myinfo->argv[0];
+    int i = 0;
+
+    while (builtintbl[i].cmd != NULL)
+    {
+        if (strcmp(cmd, builtintbl[i].cmd) == 0)
+            return builtintbl[i].func(myinfo);
+
+        i++;
+    }
+
+    return (-1); 
 }

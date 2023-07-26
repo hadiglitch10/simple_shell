@@ -53,8 +53,6 @@ extern char **environ;
 
 
 
-
-
 /*structs*/
 
 /* one for linked lists */
@@ -156,6 +154,7 @@ typedef struct builtin
 	NULL,              /* history: representing the history of commands */ \
 	NULL               /* alias: representing aliases for commands */ \
 }
+
 
 
 
