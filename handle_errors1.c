@@ -6,7 +6,7 @@
  * @file_d: the file descriptor to write to
  * Return: 1 on success, -1 on failure
  */
-int put_char(char ch, int file_d)
+int put_char_err(char ch, int file_d)
 {
 	static char *buffer;
 	static int index;

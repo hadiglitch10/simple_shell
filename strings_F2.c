@@ -1,4 +1,5 @@
 #include "my_shell.h"
+
 /**
  * string_concat - Concatenate two strings
  * @dest: The destination buffer to concatenate to
