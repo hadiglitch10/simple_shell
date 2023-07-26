@@ -71,6 +71,40 @@ char *string_cpy(char *destin, const char *sorc)
 }
 
 /**
+ * str_copy_n - Copies a string with a specified number of characters.
+ * @destin: The destination string to be copied to.
+ * @sorc: The source string.
+ * @n: The number of characters to be copied.
+ *
+ * Return: A pointer to the concatenated string.
+ */
+char *str_copy_n(char *destin, const char *sorc, int n)
+{
+    int i;
+
+    /* Check if the source or destination is NULL. */
+    if (sorc == NULL || destin == NULL)
+    {
+        perror("Error: Source or destination string is NULL");
+        return NULL;
+    }
+
+    /* Copy characters from source to destination up to the specified limit (n). */
+    for (i = 0; i < n && sorc[i] != '\0'; i++)
+    {
+        destin[i] = sorc[i];
+    }
+
+    /* If the length of the source is less than n, fill the remaining characters in destination with null terminator. */
+    for (; i < n; i++)
+    {
+        destin[i] = '\0';
+    }
+
+    return (destin);
+}
+
+/**
  * string_dupli - Duplicates a string
  * @str: The input string to be duplicated
  * Return: A pointer to the newly allocated duplicated string.

@@ -28,6 +28,31 @@ char *string_concat(char *dest, const char *src)
 	return (result);
 }
 /**
+ * _strncat - Concatenates two strings up to n bytes.
+ * @destin: The destination string.
+ * @sorc: The source string.
+ * @n: The maximum number of bytes to be copied from src.
+ *
+ * Return: A pointer to the destination string.
+ */
+char *str_concat_n(char *destin, const char *sorc, int n)
+{
+	int dest_len = 0;
+
+	/* Find the length of the destination string */
+	while (destin[dest_len] != '\0')
+		dest_len++;
+
+	/* Append the source string to the destination */
+	for (int i = 0; sorc[i] != '\0' && i < n; i++)
+		destin[dest_len + i] = sorc[i];
+
+	/* Null-terminate the destination string */
+	destin[dest_len + n] = '\0';
+
+	return (destin);
+}
+/**
  * begin_with - Checks if the first string begins witj the second one
  * @haystack: The string to search for
  * @needle: The substring to be found
