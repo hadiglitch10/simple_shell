@@ -179,7 +179,7 @@ int share_env_list(info *myinfo);
 int my_unsetenv(info *myinfo);
 
 /*cmd_management*/
-int is_cmd_exec(info *myinfo, char *path);
+int is_cmd_exec(info *myinfo,const char *path);
 char *duplicate_substring(const char *str, int start, int end);
 char *find_cmd_path(info *myinfo, const char *pathstr, const char *command);
 void handle_cmd_found(info *myinfo, char *path);
@@ -236,7 +236,7 @@ char **split_str_to_words(const char *str, char delimiter);
 int string_cmp(char *str1, char *str2);
 char *str_copy_n(char *destin, const char *sorc, int n);
 char *string_dupli(const char *str);
-int string_length(char *str);
+int string_length(const char *str);
 char *string_cpy(char *destin, const char *sorc);
 
 char *string_concat(char *dest, const char *src);
@@ -268,7 +268,7 @@ void free_link_list(list_s **head_ptr);
 int put_char_err(char ch);
 int put_char_fd(char ch, int file_d);
 int put_str_fd(char *str, int file_d);
-void put_str_err(char *str);
+void put_str_err(const char *str);
 
 char *convert_num(long int num, int base, int flag);
 int str_to_int(char *str);
@@ -277,7 +277,7 @@ void remove_comments(char *input_buff);
 void print_error(info *info, char *str_err);
 
 /*delimeter*/
-void check_chain(info *info, char *buff, size_t *b, size_t a, size_t len);
+void check_chain(info *info, char *buff, char *b, size_t a, size_t len);
 int chain(info *info, char *buff, size_t *p);
 int replace_variables(info *info);
 int rep_alias(info *info);
@@ -285,7 +285,7 @@ int rep_str(char **old, char *new);
 
 /*convert int*/
 int valid_digit_or_whitespace(char c);
-int get_sign(const char **str);
+int get_sign( char **str);
 unsigned long parse_number(const char *str);
 int handle_conversion(char *str);
 int convert_to_int(char *str);

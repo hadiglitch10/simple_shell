@@ -53,34 +53,14 @@ int set_alias(info *myinfo, char *str)
 		return (unset_alias(myinfo, name));
 	/* Empty alias value, remove the alias */
 
-	if (Add_node_end(&(myinfo->alias), name, value) == NULL)
+	if (Add_node_end(&(myinfo->alias), name, strlen(value)) == NULL)
 	{
 		/* Handle allocation failure */
+		perror("set_alias: Memory allocation failed");
 		return (-1);
 	}
 	return (0);
 	/* Add alias to the linked list */
-}
-
-/**
- * show_history - Displays the history list, one command per line,
- *                preceded with line numbers starting at 0.
- * @myinfo: Pointer to the info struct containing shell information.
- *
- * Return: Always 0.
- */
-int show_history(info *myinfo)
-{
-	list_s *current = myinfo->history;
-	int line_number = 0;
-
-	while (current != NULL)
-	{
-		printf("%4d  %s\n", line_number++, current->str);
-		current = current->nxt;
-	}
-
-	return (0);
 }
 
 /**
@@ -91,24 +71,27 @@ int show_history(info *myinfo)
  */
 bool show_alias(const list_s *alias_node)
 {
+	char alias_name[MAX_ALIAS_LEN + 1];
+	char alias_value[MAX_ALIAS_LEN + 1];
+	char *equal_sign_ptr;
+
 	if (alias_node == NULL)
 	{
 		/* Error: Alias node is NULL */
-		print_str("show_alias: Alias node is NULL.\n");
+		printf("show_alias: Alias node is NULL.\n");
 		return (false);
 	}
 
-	char *equal_sign_ptr = str_char(alias_node->str, '=');
+	equal_sign_ptr = str_char(alias_node->str, '=');
 
 	if (equal_sign_ptr == NULL || equal_sign_ptr == alias_node->str)
 	{
 		/* Error: Invalid alias format or empty alias name */
-		put_str("show_alias: Invalid alias format or empty alias name.\n");
+		printf("show_alias: Invalid alias format or empty alias name.\n");
 		return (false);
 	}
 
-	char alias_name[MAX_ALIAS_LEN + 1];
-	char alias_value[MAX_ALIAS_LEN + 1];
+
 
 	str_copy_n(alias_name, alias_node->str, equal_sign_ptr - alias_node->str);
 	alias_name[equal_sign_ptr - alias_node->str] = '\0';
@@ -116,7 +99,7 @@ bool show_alias(const list_s *alias_node)
 	str_copy_n(alias_value, equal_sign_ptr + 1, MAX_ALIAS_LEN);
 	alias_value[MAX_ALIAS_LEN] = '\0';
 
-	_printf("'%s' '%s'\n", alias_name, alias_value);
+	printf("'%s' '%s'\n", alias_name, alias_value);
 
 	return (true);
 }

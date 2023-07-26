@@ -7,7 +7,7 @@
  *
  * Return: 1 if true, 0 otherwise
  */
-int is_cmd_exec(info *myinfo, char *path)
+int is_cmd_exec(info *myinfo, const char *path)
 {
 	struct stat file_stats;
 
@@ -41,14 +41,13 @@ int is_cmd_exec(info *myinfo, char *path)
  */
 char *duplicate_substring(const char *str, int start, int end)
 {
+	int substring_length = end - start;
+		int i, j;
+		char *substring = malloc(substring_length + 1);
+
 	/* Check for invalid inputs */
 	if (!str || start < 0 || end < 0 || end <= start)
 		return (NULL);
-
-	/* Calculate the length of the substring and allocate memory for it */
-	int substring_length = end - start;
-	char *substring = malloc(substring_length + 1);
-
 	/* Check if memory allocation was successful */
 	if (!substring)
 	{
@@ -57,7 +56,6 @@ char *duplicate_substring(const char *str, int start, int end)
 	}
 
 	/* Copy character of the source string to the new buffer */
-	int i, j;
 
 	for (i = start, j = 0; i < end; i++, j++)
 	{

@@ -102,7 +102,7 @@ int remove_env(info *myinfo, char *var_2be_removed)
 	if (!myinfo->env_list || !var_2be_removed)
 		return (0);
 
-	for (current; current; prev = current, current = current->nxt)
+	for (; current; prev = current, current = current->nxt)
 	{
 		char *variable_match = begin_with(current->str, var_2be_removed);
 
@@ -131,16 +131,15 @@ int remove_env(info *myinfo, char *var_2be_removed)
  */
 int current_env(info *myinfo)
 {
+	list_s *node = myinfo->env_list;
+	size_t env_cnt = 0;
+
 	/*check if passed env is true*/
 	if (!myinfo || !(myinfo->env_list))
 	{
 		perror("Invalid info or environment list is empty");
 		return (1);
 	}
-
-	/*point to the first element*/
-	list_s *node = myinfo->env_list;
-	size_t env_cnt = 0;
 
 	/*iterate through the list*/
 	while (node)

@@ -30,7 +30,7 @@ int string_cmp(char *str1, char *str2)
  * @str: The string to calculate it's length
  * Return: The length of the string
  */
-int string_length(char *str)
+int string_length(const char *str)
 {
 	int length = 0;
 

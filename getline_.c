@@ -12,13 +12,13 @@ void control_c(int sig_num)
 	(void)sig_num;
 
 	/* New line after Ctrl+C */
-	_puts("\n");
+	print_str("\n");
 
 	/* Print the shell prompt */
-	_puts("$ ");
+	print_str("$ ");
 
 	/* Flush the output buffer */
-	_fflush(stdout);
+	fflush(stdout);
 
 	/*
 	 * Handle any ongoing background processes here
@@ -51,6 +51,7 @@ void control_c(int sig_num)
  */
 ssize_t read_buffer(info *myinfo, char *buf, size_t *bytes_read)
 {
+	ssize_t bytes_read_now = read(myinfo->rdfd, buf, BUFFER_SIZE);
 	/* If bytes_read is already more 0, reset indicate no data was read. */
 	if (*bytes_read > 0)
 	{
@@ -59,7 +60,7 @@ ssize_t read_buffer(info *myinfo, char *buf, size_t *bytes_read)
 	}
 
 	/* Attempt to read data from the file descriptor into the buffer. */
-	ssize_t bytes_read_now = read(myinfo->rdfd, buf, BUFFER_SIZE);
+
 
 	/* read successfully, update value of bytes_read */
 	if (bytes_read_now > 0)
@@ -79,6 +80,10 @@ ssize_t read_buffer(info *myinfo, char *buf, size_t *bytes_read)
  */
 ssize_t input_buf(info *myinfo, char **buf, size_t *len)
 {
+	ssize_t r = getline(buf, len, stdin);
+
+	signal(SIGINT, control_c);
+
 	if (*len == 0)
 	{
 		/* Buffer is empty, read new input from stdin */
@@ -86,10 +91,6 @@ ssize_t input_buf(info *myinfo, char **buf, size_t *len)
 		free(*buf);
 		*buf = NULL;
 		/* Set the signal handler for SIGINT (Ctrl-C) */
-		signal(SIGINT, control_c);
-
-		ssize_t r = _getline(myinfo, buf, len);
-
 		if (r == -1)
 		{
 			perror("input_buf: getline failed");
@@ -132,19 +133,15 @@ ssize_t get_input(info *myinfo)
 	ssize_t r = 0;
 	char **buf_p = &(myinfo->arg), *p;
 	static size_t cmd_start_index;
-	/*Static variable to keep track of the command's starting index*/
 
-	_putchar(BUFFER_FLUSH);
+	put_char(BUFFER_FLUSH);
 	r = input_buf(myinfo, &buf, &len);
 	if (r == -1)
 		return (-1);
 	if (len)
 	{
 		p = buf + cmd_start_index;
-		/*Use cmd_start_index to get the start of the command*/
-		check_chain(myinfo, buf, p, &i, len);
-		/*check_chain is implemented and modifies the value of 'i'*/
-		/*Loop to find the end of the command*/
+		check_chain(myinfo, buf, p, i, len); /* Pass 'p' directly'*/
 		while (i < len)
 		{
 			if (chain(myinfo, buf, &i))
@@ -152,16 +149,13 @@ ssize_t get_input(info *myinfo)
 			i++;
 		}
 		cmd_start_index = i + 1;
-		/*Update the cmd_start_index for the next call*/
 		if (i >= len)
 		{
 			cmd_start_index = i = len = 0;
-		/*Reset the cmd_start_index and other variables for the next input*/
 			myinfo->cmd_type = CMD_NORMAL;
 		}
 		*buf_p = p;
 		return (i - (p - buf));
-		/*Return the number of bytes read from the buffer*/
 	}
 	*buf_p = buf;
 	return (r);

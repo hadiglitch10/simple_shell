@@ -1,10 +1,10 @@
 #include "my_shell.h"
 
-
 /**
  * put_char_fd - Writes a character to the file descriptor with error handling.
  * @ch: The character to be written.
  * @file_d: The file descriptor to write to.
+ *
  * Return: 1 on success, -1 on failure.
  */
 int put_char_fd(char ch, int file_d)
@@ -20,7 +20,7 @@ int put_char_fd(char ch, int file_d)
 		buffer = malloc(BUFFER_SIZE);
 		if (buffer == NULL)
 		{
-			perror("put_char: Memory allocation failed");
+			perror("put_char_fd: Memory allocation failed");
 			return (-1);
 		}
 	}
@@ -31,7 +31,7 @@ int put_char_fd(char ch, int file_d)
 	{
 		if (write(file_d, buffer, index) < 0) /* flush the buffered characters */
 		{
-			perror("put_char: Writing failed");
+			perror("put_char_fd: Writing failed");
 			free(buffer); /* deallocate memory */
 			buffer = NULL;
 			return (-1);
@@ -43,43 +43,45 @@ int put_char_fd(char ch, int file_d)
 }
 
 /**
- * put_str_err - Prints an input string
- * @str: The string to be printed
- * Return: None
+ * put_str_err - Prints an input string.
+ * @str: The string to be printed.
+ *
+ * Return: None.
  */
-void put_str_err(char *str)
+void put_str_err(const char *str)
 {
 	if (str == NULL)
 	{
-		perror("put_str: The input string is NULL");
+		perror("put_str_err: The input string is NULL");
 		return;
 	}
 
 	for (int i = 0; str[i] != '\0'; i++)
 	{
-		put_char(str[i]);
+		put_char_fd(str[i], 2); /* Print the character to standard error (fd 2) */
 	}
 }
 
 /**
- * put_str_fd - writes an input string to the specified file descriptor
- * @str: The string to be written
- * @file_d: The file descriptor to write to
- * Return: The number of characters written on success, -1 on failure
+ * put_str_fd - Writes an input string to the specified file descriptor.
+ * @str: The string to be written.
+ * @file_d: The file descriptor to write to.
+ *
+ * Return: The number of characters written on success, -1 on failure.
  */
 int put_str_fd(char *str, int file_d)
 {
-	int i = 0;
-
 	if (!str)
 		return (-1);
 
-	while (*str)
+	int i = 0;
+
+	while (str[i])
 	{
-		if (put_char_fd(*str++, file_d) < 0)/* Print the character to fd*/
+		if (put_char_fd(str[i], file_d) < 0) /* Print char to the given fd */
 		{
 			/* Handle error and return -1 to indicate failure */
-			perror("custom_put: Error writing to file descriptor");
+			perror("put_str_fd: Error writing to file descriptor");
 			return (-1);
 		}
 		i++;
@@ -89,8 +91,9 @@ int put_str_fd(char *str, int file_d)
 }
 
 /**
- * put_char_err - writes the character c to the given file descriptor
- * @ch: The character to be written
+ * put_char_err - Writes the character c to the given file descriptor.
+ * @ch: The character to be written.
+ *
  * Return: On success, 1 is returned.
  * On error, -1 is returned, and errno is set appropriately.
  */
@@ -103,7 +106,7 @@ int put_char_err(char ch)
 	{
 		if (write(2, buf, i) < 0)
 		{
-			perror("putfd: Write failed");
+			perror("put_char_err: Write failed");
 			return (-1);
 		}
 		i = 0;

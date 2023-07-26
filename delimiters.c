@@ -9,7 +9,7 @@
  * @len: Length of the buffer
  * Return: nothing
  */
-void check_chain(info *info, char *buff, size_t *b, size_t a, size_t len)
+void check_chain(info *info, char *buff, char *b, size_t a, size_t len)
 {
 	size_t i = *b;
 
@@ -112,7 +112,7 @@ int replace_variables(info *info)
 					rep_str(&arg, string_dupli(convert_num(getpid(), 10, 0)));
 					break;
 				}
-				node = node_starts_with(info->env_modify, &arg[1], '=');
+				node = node_starts_with(info->env_modify, arg + 1, '=');
 				if (node)
 				{
 					rep_str(&arg, string_dupli(str_char(node->str, '=') + 1));
@@ -123,7 +123,7 @@ int replace_variables(info *info)
 				}
 				break;
 			default:
-	/* If the current argument is not starting with '$'move to the next one*/
+		/* If the current argument is not starting with '$', move to the next one */
 				break;
 		}
 		info->argv[index] = arg;

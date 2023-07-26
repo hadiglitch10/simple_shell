@@ -45,20 +45,16 @@ int share_env_list(info *myinfo)
 		if (Add_node_end(&head, environ[i], 0) == NULL)
 		{
 			perror("Error adding node to the linked list");
-			free_link_list(head);
+			free_link_list(&head);
 			/*Free list if there's allocation error*/
 			return (1);
 		}
 		i++;
 	}
-
+	free_link_list(&(myinfo->env_list));
 	myinfo->env_list = head;
 	return (0);
 }
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "my_shell.h"
 
 /**
  * my_unsetenv - Remove an environment variable

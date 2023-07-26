@@ -6,6 +6,11 @@
  *
  * Return: Always 0.
  */
+/**
+ * @myinfo: Pointer to the info struct containing shell information.
+ *
+ * Return: Always 0.
+ */
 int builtin_help(info *myinfo)
 {
 	static const char *const help_message[] = {
@@ -22,17 +27,19 @@ int builtin_help(info *myinfo)
 		"  alias       Create an alias for a command.",
 		NULL
 	};
-
 	const char *const *line = help_message;
+	(void)myinfo;
 
 	while (*line)
 	{
-		put_str(*line++);
-		put_char('\n');
+		put_str_err(*line);
+		put_char_err('\n');
+		line++;
 	}
 
 	return (0);
 }
+
 
 /**
  * builtin_exit - Exits the shell with a given exit status or error code.
@@ -49,7 +56,7 @@ int builtin_exit(info *myinfo)
 		if (exit_status == -1)
 		{
 			myinfo->status = 2;
-			perror("Illegal number");
+			put_str_err("Illegal number");
 			put_str_err(myinfo->argv[1]);
 			put_char_err('\n');
 			return (1); /* Return non-zero to indicate an error */
@@ -92,7 +99,7 @@ int _cd(info *myinfo)
 		target_directory = search_env_value(myinfo, "OLDPWD=");
 		if (!target_directory)
 		{
-			put_str(current_directory);
+			print_str(current_directory);
 			put_char('\n');
 			return (1);
 		}
