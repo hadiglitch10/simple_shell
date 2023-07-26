@@ -53,8 +53,6 @@ extern char **environ;
 
 
 
-
-
 /*structs*/
 
 /* one for linked lists */
