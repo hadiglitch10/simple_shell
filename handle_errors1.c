@@ -50,13 +50,14 @@ int put_char_fd(char ch, int file_d)
  */
 void put_str_err(const char *str)
 {
+	int i = 0;
 	if (str == NULL)
 	{
 		perror("put_str_err: The input string is NULL");
 		return;
 	}
 
-	for (int i = 0; str[i] != '\0'; i++)
+	for (i = 0; str[i] != '\0'; i++) /* Initialize 'i' with 0*/
 	{
 		put_char_fd(str[i], 2); /* Print the character to standard error (fd 2) */
 	}
@@ -71,10 +72,9 @@ void put_str_err(const char *str)
  */
 int put_str_fd(char *str, int file_d)
 {
+	int i = 0;
 	if (!str)
 		return (-1);
-
-	int i = 0;
 
 	while (str[i])
 	{

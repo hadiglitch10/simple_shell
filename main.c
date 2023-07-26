@@ -12,7 +12,14 @@ int main(int argc, char **argv)
 {
 	info myinfo = { 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 	int file_descriptor = 2; /*initialize file desc. for stderr*/
+	myinfo = (info *)malloc(sizeof(info)); /* allocate memory for info struct */
 
+	if (myinfo == NULL) /* check if malloc was successful */
+	{
+		perror("Error: Unable to allocate memory");
+		return (EXIT_FAILURE);
+	}
+		null_info(myinfo); /* initialize the info struct */
 	if (argc == 2) /*check if 2 arg*/
 	{
 
@@ -38,7 +45,7 @@ int main(int argc, char **argv)
 
 	share_env_list(myinfo);
 	read_history(myinfo);
-	run_shell(myinfo, argv);
-
+	run_shell(myinfo);
+	myinfo_free(myinfo, 1);
 	return (EXIT_SUCCESS);
 }

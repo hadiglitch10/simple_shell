@@ -188,7 +188,7 @@ void handle_cmd_not_found(info *myinfo);
 int find_builtin_command(info *myinfo);
 void execute_cmd(info *myinfo);
 void find_and_execute_cmd(info *myinfo);
-int run_shell(info *myinfo, char **argv);
+int run_shell(info *myinfo);
 
 /*builtin_functions*/
 int builtin_help(info *myinfo);

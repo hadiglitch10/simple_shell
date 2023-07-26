@@ -75,7 +75,11 @@ void initialize_info(info *myinfo)
 
 	if (myinfo->arg != NULL)
 	{
+<<<<<<< HEAD
 		myinfo->argv = split_str_to_words(myinfo->arg, '\t'); /*boudy splitstr*/
+=======
+		myinfo->argv = split_str_to_words(myinfo->arg, '\t'); /* Use '\t' as the delimiter */
+>>>>>>> 8c9278472bbec78b239d3346b54db84344d54b83
 
 		for (argcnt = 0; myinfo->argv[argcnt] != NULL; argcnt++)
 			;
@@ -102,10 +106,9 @@ void initialize_info(info *myinfo)
  * @freeall: permision to free all
  *
 */
-
 void myinfo_free(info *myinfo, int freeall)
 {
-	free_link_list(myinfo->argv);/*custom*/
+	free_link_list(myinfo->argv); /* custom */
 	myinfo->path = NULL;
 	myinfo->argv = NULL;
 
@@ -113,12 +116,16 @@ void myinfo_free(info *myinfo, int freeall)
 	{
 		free_link_list(myinfo->env_modify);
 		myinfo->modified_env = NULL;
-		freememo((void **)&myinfo->cmd_buffer); /*custom*/
+		freememo((void **)&myinfo->cmd_buffer); /* custom */
 
 		if (!myinfo->cmd_buffer)
 			free(myinfo->arg);
 		else if (myinfo->env_list)
+<<<<<<< HEAD
 			free_link_list(myinfo->modified_env); /*custom*/
+=======
+			freememo((void **)myinfo->modified_env); /* free list of strings (char **) */
+>>>>>>> 8c9278472bbec78b239d3346b54db84344d54b83
 		else if (myinfo->history)
 			free_link_list(&(myinfo->history));
 		else if (myinfo->alias)
@@ -130,6 +137,6 @@ void myinfo_free(info *myinfo, int freeall)
 
 		fflush(stdout);
 
-		/*dont forget empty list arr blocks*/
+		/* don't forget empty list arr blocks */
 	}
 }

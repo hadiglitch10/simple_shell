@@ -111,7 +111,7 @@ void find_and_execute_cmd(info *myinfo)
  *
  * Return: 0 on success, 1 on error or error code
  */
-int run_shell(info *myinfo, char **argv)
+int run_shell(info *myinfo)
 {
 	ssize_t read_result = 0;
 	int builtin_ret = 0;
@@ -131,9 +131,8 @@ int run_shell(info *myinfo, char **argv)
 		{
 			if (is_interactive)
 				put_char('\n');
-			break; /*Exit loop on Ctrl+D (EOF)*/
+			break; /* Exit loop on Ctrl+D (EOF) */
 		}
-		initialize_info(myinfo, argv);
 
 		builtin_ret = find_builtin_command(myinfo);
 		if (builtin_ret == -1)

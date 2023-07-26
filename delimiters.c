@@ -89,47 +89,38 @@ int chain(info *info, char *buff, size_t *p)
  * @info: Pointer to the parameter struct containing info
  * Return: 1 if replaced, 0 otherwise
  */
-int replace_variables(info *info)
-{
-	int index = 0;
-	list_s *node;
+int replace_variables(info *info) {
+    int index = 0;
+    list_s *node;
 
-	while (info->argv[index])
-	{
-		char first_char = info->argv[index][0];
-		char *arg = info->argv[index];
+    while (info->argv[index]) {
+        char first_char = info->argv[index][0];
+        char *arg = info->argv[index];
 
-		switch (first_char)
-		{
-			case '$':
-				if (arg[1] == '?')
-				{
-					rep_str(&arg, string_dupli(convert_num(info->status, 10, 0)));
-					break;
-				}
-				else if (arg[1] == '$')
-				{
-					rep_str(&arg, string_dupli(convert_num(getpid(), 10, 0)));
-					break;
-				}
-				node = node_starts_with(info->env_modify, arg + 1, '=');
-				if (node)
-				{
-					rep_str(&arg, string_dupli(str_char(node->str, '=') + 1));
-				}
-				else
-				{
-					rep_str(&arg, string_dupli(""));
-				}
-				break;
-			default:
-		/* If the current argument is not starting with '$', move to the next one */
-				break;
-		}
-		info->argv[index] = arg;
-		index++;
-	}
-	return (0);
+        switch (first_char) {
+            case '$':
+                if (arg[1] == '?') {
+                    rep_str(&arg, string_dupli(convert_num(info->status, 10, 0)));
+                    break;
+                } else if (arg[1] == '$') {
+                    rep_str(&arg, string_dupli(convert_num(getpid(), 10, 0)));
+                    break;
+                }
+                node = node_starts_with(info->env_modify, arg + 1, '=');
+                if (node) {
+                    rep_str(&arg, string_dupli(str_char(node->str, '=') + 1));
+                } else {
+                    rep_str(&arg, string_dupli(""));
+                }
+                break;
+            default:
+                /* If the current argument is not starting with '$', move to the next one */
+                break;
+        }
+        info->argv[index] = arg;
+        index++;
+    }
+    return 0;
 }
 
 /**
